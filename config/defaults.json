@@ -25,7 +25,8 @@
     "basic-auth.yaml",
     "security.yaml",
     "instagram.yaml",
-    "twitter.yaml"
+    "twitter.yaml",
+    "swagger.json"
   ],
   "autocompleteExtension": {},
   "useBackendForStorage": false,
@@ -39,5 +40,7 @@
   "enableTryIt": true,
   "brandingCssClass": "",
   "importProxyUrl": "https://cors-it.herokuapp.com/?url=",
-  "pointerResolutionBasePath": null
+  "pointerResolutionBasePath": null,
+  "suggestionServiceBasePath": "http://smart-api.info/api/suggestion?field="
+
 }

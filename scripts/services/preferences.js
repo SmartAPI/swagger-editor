@@ -36,8 +36,16 @@ SwaggerEditor.service('Preferences', function Preferences($localStorage,
      * JSON Pointer resolution base path
     */
     pointerResolutionBasePath: defaults.pointerResolutionBasePath ||
+      location.origin + location.pathname,
+      
+      /*
+     * JSON Pointer resolution base path for suggestion service
+    */
+    suggestionServiceBasePath: defaults.suggestionServiceBasePath ||
       location.origin + location.pathname
   };
+  
+  
 
   var preferences = _.extend(defaultPreferences, $localStorage.preferences);
 

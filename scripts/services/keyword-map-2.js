@@ -94,36 +94,14 @@ SwaggerEditor.service('KeywordMap', function KeywordMap(defaults) {
     'video/ogg',
     'video/mp4'
   ];
-  
-  var shouldList = [
-    'description',
-    'produces',
-    'parameterType',
-    'parameterValueType',
-    'SSLsupport',
-    'authenticationMode',
-    'externalDocs',
-    'termsOfService',
-    'schemes',
-    'parameters'
-        
-  ];
-  
-  
-  var nonSuggestibleList = [
-    'description',
-    'summary',
-    'responsibleOrganization',
-    'responsibleDeveloper'        
-  ];
-  
+
   var header = {
     name: String,
     description: String
   };
 
   var parameter = {
-    name,
+    name: String,
     in: [
       'body',
       'formData',
@@ -140,16 +118,8 @@ SwaggerEditor.service('KeywordMap', function KeywordMap(defaults) {
       'integer',
       'array'
     ],
-    format: [
-      'string',
-      'number',
-      'boolean',
-      'integer',
-      'array'
-    ],
-    schema: jsonSchema,
-    parameterType: [String],
-    parameterValueType: [String]
+    format: String,
+    schema: jsonSchema
   };
 
   var security = {
@@ -199,47 +169,27 @@ SwaggerEditor.service('KeywordMap', function KeywordMap(defaults) {
   };
 
   var map = {
-    swagger: ['"2.0"'],
-    info: {
-      version: [
-        '1.0.0',
-        '2.0.0',
-        '0.0.0',
-        '0.0.1',
-        'something-we-all-get'
-      ],
-      title: String,
+    
+    APIMetadata: {
+      name: String,
       description: String,
       termsOfService: String,
-      contact: {
-        name: String,
-        url: String,
-        email: String,
-        contributer: String,
-        funding: String,
-        developerForum: String       
-      },
-      license: {
-        name: String,
-        url: String
-      },
-      publication: String,
-      accessRestriction: String,
-      sslSupport: Boolean,
-      socialMediaLinks: String,
-      accessPointMirrors: String,
-      APIaccessMode: String,
-      APIlocation: String,
-      APIimplementationLanguage: String,
-      APImaturity: String
+      website: String,
+      accessPoint: String,
+      responseMimeType: [mimeTypes]
+    },
+    serviceProviderMetadata: {
+      responsibleOrganization: String,
+      responsibleDeveloper: String,
+      contactEmail: String
+    },
+    APIoperationMetadata: {
+      title: String,
+      description: String,
+      keywords: [String],
+      operationID: String
     },
     
-    host: String,
-    basePath: String,
-
-    schemes: [],
-    produces: [mimeTypes],
-    consumes: [mimeTypes],
 
     paths: {
 
@@ -250,31 +200,13 @@ SwaggerEditor.service('KeywordMap', function KeywordMap(defaults) {
       }
     },
 
-    definitions: {
-
-      // Definition name
-      '.': jsonSchema
-    },
+    
 
     parameters: [parameter],
     responses: {
       '[2-6][0-9][0-9]': response
-    },
-    security: {
-      '.': {
-        '.': String
-      }
-    },
-    securityDefinitions: {
-      '.': securityDefinition
-    },
-    tags: [{
-      name: String,
-      description: String
-    }],
-    externalDocs: {
-      '.': externalDocs
     }
+    
   };
 
   this.get = function() {
@@ -282,41 +214,4 @@ SwaggerEditor.service('KeywordMap', function KeywordMap(defaults) {
       defaults.autocompleteExtension : {};
     return _.extend(map, extension);
   };
-  
-  this.getShould = function() {
-    return shouldList;
-  };
-   
-  this.getNonSuggestible = function() {
-    return nonSuggestibleList;
-  };
-  
-  this.isSuggestible = function(field){
-    if (this.getSuggestible().indexOf(field) !== -1)
-    	return true;
-  };
-  
-  
-  this.getSuggestedValues = function(field) {
-     var suggestions = [];
-     var url = "http://smart-api.info/api/suggestion?field="+"operations.parameters.name";
-     var xhr = new XMLHttpRequest();
-     xhr.onreadystatechange = function() {
-     if (xhr.readyState == 4 && xhr.status == 200) {
-        var myArr = JSON.parse(xhr.responseText);
-        var arrayLength = myArr.field_values.buckets.length;
-        for (var i = 0; i < arrayLength; i++) {
-        	suggestions.push(myArr.field_values.buckets[i].key);
-        	}       
-        }
-     };
-     xhr.open('GET',url, true);
-     xhr.send();
-     return suggestions;
-  };
-  
-  
-  
-  ////
-  
 });

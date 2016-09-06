@@ -9,16 +9,23 @@ var _ = require('lodash');
 SwaggerEditor.service('Autocomplete', function($rootScope, snippets,
   KeywordMap, Preferences, ASTManager, YAML) {
   // Ace KeywordCompleter object
-  var KeywordCompleter = {
+  
+  var flag = false;
+  var suggestions = [];
+  var counts = [];
+  var myArr = [];
+  var aurl =  Preferences.get('suggestionServiceBasePath')+"/api/suggestion?field=";
 
+  var KeywordCompleter = {
+     
     // this method is being called by Ace to get a list of completion candidates
     getCompletions: function(editor, session, pos, prefix, callback) {
       var startTime = Date.now();
-
       // Do not make any suggestions when autoComplete preference is off
-      if (!Preferences.get('autoComplete')) {
+      
+     /* if (!Preferences.get('autoComplete')) {
         return callback(null, []);
-      }
+      }*/
 
       // Let Ace select the first candidate
       editor.completer.autoSelect = true;
@@ -34,6 +41,8 @@ SwaggerEditor.service('Autocomplete', function($rootScope, snippets,
             callback(null, $refs);
           });
         }
+        
+   
 
         // Disable autocomplete and increase debounce time automatically if
         // document is too large (takes more than 200ms to compose AST)
@@ -68,10 +77,14 @@ SwaggerEditor.service('Autocomplete', function($rootScope, snippets,
    * @returns {object} - an Ace compatible snippet object
   */
   var constructAceSnippet = function(snippet) {
+     var snp = '{Required}';
+     //if (snippet.trigger.indexOf('smartAPI') !== -1)
+     	//snp = "smartAPI snippet";
     return {
       caption: snippet.name,
       snippet: snippet.content,
-      meta: 'snippet'
+      score:500,
+      meta: snp
     };
   };
 
@@ -191,10 +204,21 @@ SwaggerEditor.service('Autocomplete', function($rootScope, snippets,
    * @return {array} - list of keywords for provided position
   */
   function getKeywordsForPosition(path) {
+    flag = false;
     var keywordsMap = KeywordMap.get();
-
     var key = path.shift();
-
+    var field = key;
+    if (path[0] !== undefined) {
+    	if (path[0].indexOf("/") === 0){
+    		field = "operations"+"."+path[2]+"."+path[path.length-1];
+    	  }
+    	var pathLocalName = field;
+    	if (path.length > 1){ 
+    	 	pathLocalName = path[path.length-1];
+    		}
+    	//alert(field); 
+    	   
+      }    
     // is getting path was not successful stop here and return no candidates
     if (!_.isArray(path)) {
       return [];
@@ -203,18 +227,31 @@ SwaggerEditor.service('Autocomplete', function($rootScope, snippets,
     // traverse down the keywordsMap for each key in the path until there is
     // no key in the path
     while (key && _.isObject(keywordsMap)) {
+     // _.forOwn(keywordsMap, function(value, key) { if (key === "name") {alert(key+"**"+value);}} );
       keywordsMap = getChild(keywordsMap, key);
       key = path.shift();
     }
-
+     
     // if no keywordsMap was found after the traversal return no candidates
     if (!_.isObject(keywordsMap)) {
-      return [];
+    //this is one of our keys
+    	// do a search
+    	//if empty then
+    	if (KeywordMap.getNonSuggestible().indexOf(pathLocalName) === -1) {
+    		keywordsMap = getSuggestedValues(field);
+    		flag = true;
+    		}
+    	
+    	
+        // otherwise store the values in the map
     }
 
     // if keywordsMap is an array of strings, return the array as list of
     // suggestions
     if (_.isArray(keywordsMap) && keywordsMap.every(_.isString)) {
+      if (flag)
+      alert("calling the service");
+     // flag = true;
       return keywordsMap.map(constructAceCompletion);
     }
 
@@ -228,7 +265,7 @@ SwaggerEditor.service('Autocomplete', function($rootScope, snippets,
     if (!_.isObject(keywordsMap)) {
       return [];
     }
-
+    
     // for each key in keywordsMap map construct a completion candidate and
     // return the array
     return _.keys(keywordsMap).map(constructAceCompletion);
@@ -242,11 +279,38 @@ SwaggerEditor.service('Autocomplete', function($rootScope, snippets,
    * @return {object} - Ace compatible completion candidate
   */
   function constructAceCompletion(keyword) {
+        
+    var shouldList = KeywordMap.getShould();
+    var count_index = _.findIndex(myArr.field_values.buckets, function(o) { return o.key == keyword; });
+   // var suggestibleList = KeywordMap.getSuggestible();
+    var level = '';
+    var meta = 'keyword';
+    var score = 300;
+    
+    if (!flag) {
+    if (shouldList.indexOf(keyword) === -1){
+    	level = 'may';
+    	meta = 'Optional';
+      }
+    else {
+    	level = 'should';
+    	meta = 'Recommended';
+    	score = 350;
+      }
+      }
+    else {
+    	level = 'should';
+    	meta = 'Frequency='+counts[count_index];
+    	score = 350+parseInt(counts[count_index]);
+       
+    }
+    	
     return {
       name: keyword,
       value: keyword,
-      score: 300,
-      meta: 'keyword'
+      score: score,
+      smartAPIlevel : level,
+      meta: meta
     };
   }
 
@@ -333,4 +397,24 @@ SwaggerEditor.service('Autocomplete', function($rootScope, snippets,
       });
     });
   }
+  
+  function getSuggestedValues(field) {
+    // var suggestions = [];
+     var url = Preferences.get('suggestionServiceBasePath')+field;
+     var xhr = new XMLHttpRequest();
+     xhr.onreadystatechange = function() {
+     if (xhr.readyState == 4 && xhr.status == 200) {
+            myArr = JSON.parse(xhr.responseText);
+        var arrayLength = myArr.field_values.buckets.length;
+        for (var i = 0; i < arrayLength; i++) {
+        	suggestions.push(myArr.field_values.buckets[i].key);
+        	counts.push(myArr.field_values.buckets[i].doc_count);
+        	}       
+        }
+     };
+     xhr.open('GET',url, true);
+     xhr.send();
+     return suggestions;
+  };
+
 });

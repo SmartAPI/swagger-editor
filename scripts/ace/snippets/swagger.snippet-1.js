@@ -2,6 +2,7 @@
 
 SwaggerEditor.config(function($provide) {
   var operationRegex = 'get|put|post|delete|options|head|patch';
+
   /**
    * Makes an HTTP operation snippet's content based on operation name
    *
@@ -21,10 +22,7 @@ SwaggerEditor.config(function($provide) {
       '${6}'
     ].join('\n');
   }
-  
-      
-  
-  
+
   /**
    * Makes an HTTP response code snippet's content based on code
    *
@@ -42,58 +40,8 @@ SwaggerEditor.config(function($provide) {
 
   $provide.constant('snippets', [
     
-    {
-      name: 'info',
-      trigger: 'info',
-      path: [],
-      content: [
-        'info:',
-        '  version: ${1:0.0.0}',
-        '  title: ${2}',
-        '  description: ${3}',
-        '  termsOfService: ${4}',
-        '  contact:',
-        '    name: ${7}',
-        '    url: ${8}',
-        '    email: ${9}',
-        '${10}'
-      ].join('\n')
-    },	
-	
-	{
-      name: 'contact',
-      trigger: 'contact',
-      path: ['info'],
-      content: [
-        'contact:',
-        '  name: ${1}',
-        '  responsibleOrganization: ${2}',
-        '  responsibleDeveloper: ${3}',
-        '  url: ${4}',
-        '  email: ${5}',
-        '${6}'
-      ].join('\n')
-    },	
-    
-    {
-      name: 'paths',
-      trigger: 'pa',
-      path: [],
-      content: [
-        'paths:',
-        '  ${1}'
-      ].join('\n')
-    },
 
-    {
-      name: 'definitions',
-      trigger: 'def',
-      path: [],
-      content: [
-        'definitions:',
-        '  ${1}'
-      ].join('\n')
-    },
+   
 
     {
       name: 'path',
@@ -153,10 +101,10 @@ SwaggerEditor.config(function($provide) {
       trigger: 'param',
       path: ['paths', '.', '.', 'parameters'],
       content: [
-        '- name: ${1}',
-        '  in: ${2}',
-        '  description: ${3}',
-        '  type: ${4}',
+        '- name: ${1:parameter_name}',
+        '  in: ${2:query}',
+        '  description: ${3:description}',
+        '  type: ${4:string}',
         '${5}'
       ].join('\n')
     },
@@ -175,7 +123,7 @@ SwaggerEditor.config(function($provide) {
         '${5}'
       ].join('\n')
     },
-	
+
     {
       name: 'response',
       trigger: 'resp',

@@ -12,10 +12,12 @@
     <div marked="specs.info.description"></div>
     <h4>Version <span>{{specs.info.version}}</span></h4>
     <div class="contact info-box" ng-if="specs.info.contact">
-      <h4>Contact information</h4>
-      <p ng-if="specs.info.contact.name">{{specs.info.contact.name}}</p>
+      
+      <p ng-if="specs.info.contact.name"><b>Responsible Organization:</b> {{specs.info.contact.name}}</p>
       <p ng-if="specs.info.contact.email" ng-bind-html="specs.info.contact.email | linky:'_blank'"></p>
       <p ng-if="specs.info.contact.url" ng-bind-html="specs.info.contact.url | linky:'_blank'"></p>
+      <p ng-if="specs.info.contact.funding"><b>Funded By:</b> {{specs.info.contact.funding}}</p>
+
     </div>
     <div class="terms info-box" ng-if="specs.info.termsOfService">
       <h4>Terms of service</h4>

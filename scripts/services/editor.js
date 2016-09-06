@@ -4,7 +4,6 @@ var ace = require('brace');
 var _ = require('lodash');
 var angular = require('angular');
 var $ = require('jquery');
-
 require('brace/theme/ambiance');
 require('brace/theme/chaos');
 require('brace/theme/chrome');
@@ -65,7 +64,6 @@ SwaggerEditor.service('Editor', function Editor(Autocomplete, ASTManager,
   var that = this;
   var editorOptions = defaults.editorOptions || {};
   var defaultTheme = editorOptions.theme || 'ace/theme/atom_dark';
-
   /**
    * Annotate editor
    *
@@ -125,7 +123,6 @@ SwaggerEditor.service('Editor', function Editor(Autocomplete, ASTManager,
     editor.$blockScrolling = Infinity;
 
     Autocomplete.init(e);
-
     // Set editor options
     editor.setOptions({
       enableBasicAutocompletion: true,
@@ -140,7 +137,6 @@ SwaggerEditor.service('Editor', function Editor(Autocomplete, ASTManager,
       fn(that);
     });
     onReadyFns = new Set();
-
     var session = editor.getSession();
 
     // Hookup changeFold listeners
