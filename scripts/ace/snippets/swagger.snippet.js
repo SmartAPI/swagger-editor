@@ -15,10 +15,11 @@ SwaggerEditor.config(function($provide) {
       '${1:' + operationName + '}:',
       '  summary: ${2}',
       '  description: ${2}',
+      '  parameters:',
       '  responses:',
       '    ${3:200:}',
       '      description: ${4:OK}',
-      '${6}'
+      '${5}'
     ].join('\n');
   }
   
@@ -74,6 +75,17 @@ SwaggerEditor.config(function($provide) {
         '${6}'
       ].join('\n')
     },	
+    
+    {
+      name: 'schemes',
+      trigger: 'schemes',
+      path: [],
+      content: [
+        'schemes:',
+        '	- ${1}',
+        '${2}'
+      ].join('\n')
+    },
     
     {
       name: 'paths',
@@ -152,6 +164,20 @@ SwaggerEditor.config(function($provide) {
       name: 'parameter',
       trigger: 'param',
       path: ['paths', '.', '.', 'parameters'],
+      content: [
+        '- name: ${1}',
+        '  in: ${2}',
+        '  description: ${3}',
+        '  type: ${4}',
+        '${5}'
+      ].join('\n')
+    },
+    
+     // other level parameter
+    {
+      name: 'parameter',
+      trigger: 'param',
+      path: ['dummy'],
       content: [
         '- name: ${1}',
         '  in: ${2}',

@@ -63,7 +63,6 @@ SwaggerEditor.service('ASTManager', function ASTManager(YAML, $log) {
             var pair = current.value[i];
             var key = pair[0];
             var value = pair[1];
-
             if (key.value === path[0]) {
               path.shift();
               return find(value);
@@ -158,7 +157,6 @@ SwaggerEditor.service('ASTManager', function ASTManager(YAML, $log) {
         //   //  of the item to the path and continue recursion with that item.
 
         var i = 0;
-
         if (!current || [MAP_TAG, SEQ_TAG].indexOf(current.tag) === -1) {
           return cb(path);
         }
@@ -188,7 +186,6 @@ SwaggerEditor.service('ASTManager', function ASTManager(YAML, $log) {
             }
           }
         }
-
         return cb(path);
 
         /**
@@ -198,7 +195,6 @@ SwaggerEditor.service('ASTManager', function ASTManager(YAML, $log) {
          */
         function isInRange(node) {
           /* jshint camelcase: false */
-
           // if node is in a single line
           if (node.start_mark.line === node.end_mark.line) {
             return (position.line === node.start_mark.line) &&

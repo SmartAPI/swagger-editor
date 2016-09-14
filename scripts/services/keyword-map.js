@@ -109,12 +109,16 @@ SwaggerEditor.service('KeywordMap', function KeywordMap(defaults) {
         
   ];
   
+  var mustList = [
+    'info',
+     'paths'       
+  ];
   
   var nonSuggestibleList = [
     'description',
     'summary',
     'responsibleOrganization',
-    'responsibleDeveloper'        
+    'responsibleDeveloper',
   ];
   
   var header = {
@@ -124,29 +128,8 @@ SwaggerEditor.service('KeywordMap', function KeywordMap(defaults) {
 
   var parameter = {
     name,
-    in: [
-      'body',
-      'formData',
-      'header',
-      'path',
-      'query'
-    ],
     description: String,
     required: ['true', 'false'],
-    type: [
-      'string',
-      'number',
-      'boolean',
-      'integer',
-      'array'
-    ],
-    format: [
-      'string',
-      'number',
-      'boolean',
-      'integer',
-      'array'
-    ],
     schema: jsonSchema,
     parameterType: [String],
     parameterValueType: [String]
@@ -285,6 +268,10 @@ SwaggerEditor.service('KeywordMap', function KeywordMap(defaults) {
   
   this.getShould = function() {
     return shouldList;
+  };
+  
+  this.getMust = function() {
+    return mustList;
   };
    
   this.getNonSuggestible = function() {

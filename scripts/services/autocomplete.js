@@ -14,7 +14,8 @@ SwaggerEditor.service('Autocomplete', function($rootScope, snippets,
   var suggestions = [];
   var counts = [];
   var myArr = [];
-  var aurl =  Preferences.get('suggestionServiceBasePath')+"/api/suggestion?field=";
+  var count_index = 0;
+  var mustList = KeywordMap.getMust();
 
   var KeywordCompleter = {
      
@@ -33,6 +34,14 @@ SwaggerEditor.service('Autocomplete', function($rootScope, snippets,
       getPathForPosition(pos, prefix).then(function(path) {
         // These function might shift or push to paths, therefore we're passing
         // a clone of path to them
+        if (pos.column > 1) {
+        	  if (path.length === 0) {
+        		path = ['dummy'];
+        	} else if (path.length> 3) {
+        	    if (!isNaN(parseInt(path[path.length-1])))
+        	      path[path.length-1] ='0';
+        	  }
+         }
         var keywordsForPos = getKeywordsForPosition(_.clone(path));
         var snippetsForPos = getSnippetsForPosition(_.clone(path));
 
@@ -52,8 +61,9 @@ SwaggerEditor.service('Autocomplete', function($rootScope, snippets,
           Preferences.set('autoComplete', false);
           Preferences.set('keyPressDebounceTime', totalTime * 3);
         }
-
-        callback(null, keywordsForPos.concat(snippetsForPos));
+        var keywordNsnippet = snippetsForPos.concat(keywordsForPos);
+        //callback(null, keywordsForPos.concat(snippetsForPos));
+          callback(null, _.uniqBy(keywordNsnippet, 'caption'));
       });
     }
   };
@@ -77,13 +87,18 @@ SwaggerEditor.service('Autocomplete', function($rootScope, snippets,
    * @returns {object} - an Ace compatible snippet object
   */
   var constructAceSnippet = function(snippet) {
+     
+    
      var snp = '{Required}';
-     //if (snippet.trigger.indexOf('smartAPI') !== -1)
-     	//snp = "smartAPI snippet";
+     var score = 550;
+     if (mustList.indexOf(snippet.name) === -1)
+     	snp = '{Recommended}';
+     	score = 500;
+         
     return {
       caption: snippet.name,
       snippet: snippet.content,
-      score:500,
+      score: score,
       meta: snp
     };
   };
@@ -110,7 +125,8 @@ SwaggerEditor.service('Autocomplete', function($rootScope, snippets,
         resolve([]);
       });
     }
-
+    // if position is at root path is [], quickly resolve to root path
+    
     // if current position is in at a free line with whitespace insert a fake
     // key value pair so the generated AST in ASTManager has current position in
     // editing node
@@ -215,9 +231,7 @@ SwaggerEditor.service('Autocomplete', function($rootScope, snippets,
     	var pathLocalName = field;
     	if (path.length > 1){ 
     	 	pathLocalName = path[path.length-1];
-    		}
-    	//alert(field); 
-    	   
+    		}    	   
       }    
     // is getting path was not successful stop here and return no candidates
     if (!_.isArray(path)) {
@@ -237,7 +251,7 @@ SwaggerEditor.service('Autocomplete', function($rootScope, snippets,
     //this is one of our keys
     	// do a search
     	//if empty then
-    	if (KeywordMap.getNonSuggestible().indexOf(pathLocalName) === -1) {
+    	if (KeywordMap.getNonSuggestible().indexOf(pathLocalName) === -1 && pathLocalName !== undefined)  {
     		keywordsMap = getSuggestedValues(field);
     		flag = true;
     		}
@@ -281,7 +295,6 @@ SwaggerEditor.service('Autocomplete', function($rootScope, snippets,
   function constructAceCompletion(keyword) {
         
     var shouldList = KeywordMap.getShould();
-    var count_index = _.findIndex(myArr.field_values.buckets, function(o) { return o.key == keyword; });
    // var suggestibleList = KeywordMap.getSuggestible();
     var level = '';
     var meta = 'keyword';
@@ -299,6 +312,9 @@ SwaggerEditor.service('Autocomplete', function($rootScope, snippets,
       }
       }
     else {
+        count_index = _.findIndex(myArr.field_values.buckets, function(o) { return o.key == keyword; });
+        if (counts[count_index] === undefined)
+    		counts[count_index] = 0;
     	level = 'should';
     	meta = 'Frequency='+counts[count_index];
     	score = 350+parseInt(counts[count_index]);
@@ -306,6 +322,7 @@ SwaggerEditor.service('Autocomplete', function($rootScope, snippets,
     }
     	
     return {
+      caption: keyword,
       name: keyword,
       value: keyword,
       score: score,
@@ -399,7 +416,7 @@ SwaggerEditor.service('Autocomplete', function($rootScope, snippets,
   }
   
   function getSuggestedValues(field) {
-    // var suggestions = [];
+     suggestions = [];
      var url = Preferences.get('suggestionServiceBasePath')+field;
      var xhr = new XMLHttpRequest();
      xhr.onreadystatechange = function() {
