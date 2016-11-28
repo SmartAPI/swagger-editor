@@ -1,0 +1,24 @@
+
+
+<div class="error-presenter recom">
+   <header  class="error-header" ng-click="toggleCollapse()">
+      <h4>
+         <span>
+         smartAPI Recommendations
+         </span>
+      </h4>
+      <span class="collapse-button">{{isCollapsed ? 'Open' : 'Collapse'}}</span>
+   </header>
+<div class="items" collapse-when="isCollapsed">
+<h5>We scanned your API document and recommend adding the following metadata to increase your API interoperability! 
+<a href="https://amrapalijz.github.io/smartapi/"> Find out why</a></h5>
+<a ng-click="findRecomValue()"> Update the list </a>
+      <div
+         ng-repeat="recom in recoms track by $index"
+         class="item">
+         <div class="details">
+           <li> {{recom}} </li>
+         </div>
+      </div>
+   </div>
+</div>

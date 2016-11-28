@@ -1,12 +1,19 @@
 <div class="preview-wrapper">
+  <div ng-bind-html="profiler" compile-template></div>
   <div class="dirty-message" ng-if="isDirty">
     This preview is out of date. Please <a ng-click="loadLatest()">reload</a> to see the latest.
   </div>
-
+ 
   <ng-include
     src="'templates/error-presenter.html'"
     ng-controller="ErrorPresenterCtrl"
     ng-if="errors.length || warnings.length">
+  </ng-include>
+  
+  <ng-include
+    src="'templates/recom-presenter.html'"
+    ng-controller="RecomPresenterCtrl"
+    >
   </ng-include>
 
   <ng-include src="'templates/specs-info.html'"></ng-include>

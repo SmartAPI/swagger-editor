@@ -30,6 +30,7 @@ require('defaults.js');
 // Load tests
 require('spec/controllers/editor');
 require('spec/controllers/errorpresenter');
+require('spec/controllers/recompresenter');
 require('spec/controllers/file-import');
 require('spec/controllers/main');
 require('spec/controllers/openexamples');

@@ -11,13 +11,24 @@
   <div class="info-container section-content" collapse-when="specs.info.$folded">
     <div marked="specs.info.description"></div>
     <h4>Version <span>{{specs.info.version}}</span></h4>
-    <div class="contact info-box" ng-if="specs.info.contact">
-      
-      <p ng-if="specs.info.contact.name"><b>Responsible Organization:</b> {{specs.info.contact.name}}</p>
+    <p ng-if="specs.info.publication"><b>Publication:</b> {{specs.info.publication}}</p>
+    <p ng-if="specs.info.accessRestriction"><b>Access restriction:</b> {{specs.info.accessRestriction}}</p>
+    <p ng-if="specs.info.sslSupport"><b>SSL support:</b> {{specs.info.sslSupport}}</p>
+    <p ng-if="specs.info.socialMediaLinks"><b>Social media links:</b> {{specs.info.socialMediaLinks}}</p>
+    <p ng-if="specs.info.accessPointMirrors"><b>access point mirrors:</b> {{specs.info.accessPointMirrors}}</p>
+    <p ng-if="specs.info.APIaccessMode"><b>API access mode:</b> {{specs.info.APIaccessMode}}</p>
+    <p ng-if="specs.info.APIlocation"><b>API location:</b> {{specs.info.APIlocation}}</p>
+    <p ng-if="specs.info.APIimplementationLanguage"><b>API implementation language:</b> {{specs.info.APIimplementationLanguage}}</p>
+    <p ng-if="specs.info.APImaturity"><b>API maturity:</b> {{specs.info.APImaturity}}</p>
+    
+    <div class="contact info-box" ng-if="specs.info.contact">      
+      <p ng-if="specs.info.contact.responsibleOrganization"><b>Responsible Organization:</b> {{specs.info.contact.responsibleOrganization}}</p>
+      <p ng-if="specs.info.contact.responsibleDeveloper"><b>Responsible Developer:</b> {{specs.info.contact.responsibleOrganization}}</p>
       <p ng-if="specs.info.contact.email" ng-bind-html="specs.info.contact.email | linky:'_blank'"></p>
       <p ng-if="specs.info.contact.url" ng-bind-html="specs.info.contact.url | linky:'_blank'"></p>
-      <p ng-if="specs.info.contact.funding"><b>Funded By:</b> {{specs.info.contact.funding}}</p>
-
+      <p ng-if="specs.info.contact.funding"><b>Funding information:</b> {{specs.info.contact.funding}}</p>
+      <p ng-if="specs.info.contact.contributor"><b>contributor:</b> {{specs.info.contact.contributor}}</p>
+      <p ng-if="specs.info.contact.developerForum"><b>Developer forum:</b> {{specs.info.contact.developerForum}}</p>
     </div>
     <div class="terms info-box" ng-if="specs.info.termsOfService">
       <h4>Terms of service</h4>

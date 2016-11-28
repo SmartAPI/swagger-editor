@@ -116,9 +116,7 @@ SwaggerEditor.service('KeywordMap', function KeywordMap(defaults) {
   
   var nonSuggestibleList = [
     'description',
-    'summary',
-    'responsibleOrganization',
-    'responsibleDeveloper',
+    'summary'
   ];
   
   var header = {
@@ -132,7 +130,9 @@ SwaggerEditor.service('KeywordMap', function KeywordMap(defaults) {
     required: ['true', 'false'],
     schema: jsonSchema,
     parameterType: [String],
-    parameterValueType: [String]
+    parameterValueType: [String],
+    examples: String,
+    default: String
   };
 
   var security = {
@@ -140,12 +140,14 @@ SwaggerEditor.service('KeywordMap', function KeywordMap(defaults) {
   };
 
   var response = {
+    responseDataType: String,
     description: String,
     schema: jsonSchema,
     headers: {
       '.': header
     },
-    examples: mimeTypes
+    examples: mimeTypes,
+    responseProfile: String    
   };
 
   var operation = {
@@ -198,7 +200,7 @@ SwaggerEditor.service('KeywordMap', function KeywordMap(defaults) {
         name: String,
         url: String,
         email: String,
-        contributer: String,
+        contributor: String,
         funding: String,
         developerForum: String       
       },

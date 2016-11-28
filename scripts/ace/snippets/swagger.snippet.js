@@ -16,10 +16,14 @@ SwaggerEditor.config(function($provide) {
       '  summary: ${2}',
       '  description: ${2}',
       '  parameters:',
+      '		#add parameter snippet',
+      '     ${3}',
       '  responses:',
-      '    ${3:200:}',
-      '      description: ${4:OK}',
-      '${5}'
+      '    ${4:200:}',
+      '      description: ${5:OK}',
+      '		 #optional: insert more response elements',
+      '      ${6}',      
+      '${7}'
     ].join('\n');
   }
   
@@ -53,11 +57,8 @@ SwaggerEditor.config(function($provide) {
         '  title: ${2}',
         '  description: ${3}',
         '  termsOfService: ${4}',
-        '  contact:',
-        '    name: ${7}',
-        '    url: ${8}',
-        '    email: ${9}',
-        '${10}'
+        '  # add "contact" info:',
+        '  ${5}'
       ].join('\n')
     },	
 	
@@ -67,12 +68,12 @@ SwaggerEditor.config(function($provide) {
       path: ['info'],
       content: [
         'contact:',
-        '  name: ${1}',
-        '  responsibleOrganization: ${2}',
-        '  responsibleDeveloper: ${3}',
-        '  url: ${4}',
-        '  email: ${5}',
-        '${6}'
+        '  responsibleOrganization: ${1}',
+        '  responsibleDeveloper: ${2}',
+        '  url: ${3}',
+        '  email: ${4}',
+        '  # optional: add more contact metadata',
+        '${5}'
       ].join('\n')
     },	
     
@@ -93,6 +94,7 @@ SwaggerEditor.config(function($provide) {
       path: [],
       content: [
         'paths:',
+        '  #insert a "path" snippet',
         '  ${1}'
       ].join('\n')
     },
@@ -112,7 +114,8 @@ SwaggerEditor.config(function($provide) {
       trigger: 'path',
       path: ['paths'],
       content: [
-        '/${1}:',
+        '/${1}: #choose a name for your path',
+        '	#add the http operation snippet',
         '  ${2}'
       ].join('\n')
     },
@@ -169,7 +172,9 @@ SwaggerEditor.config(function($provide) {
         '  in: ${2}',
         '  description: ${3}',
         '  type: ${4}',
-        '${5}'
+        'required: ${5}',
+    '#optional: insert another parameter snippet',
+        '${6}'
       ].join('\n')
     },
     
@@ -183,7 +188,8 @@ SwaggerEditor.config(function($provide) {
         '  in: ${2}',
         '  description: ${3}',
         '  type: ${4}',
-        '${5}'
+        'required: ${5}',
+        '${6}'
       ].join('\n')
     },
 

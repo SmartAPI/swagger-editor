@@ -2,6 +2,7 @@
 
 var path = require('path');
 var webpack = require('webpack');
+var fs = require('fs');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var NgAnnotatePlugin = require('ng-annotate-webpack-plugin');
 var argv = require('minimist')(process.argv.slice(2));
@@ -13,7 +14,6 @@ var config = {
   entry: {
     app: ['./index.js']
   },
-
   output: {
     path: path.join(__dirname, 'dist'),
     filename: 'bundle.js',

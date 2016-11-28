@@ -33,6 +33,7 @@ require('scripts/services/yaml.js');
 // Controllers
 require('scripts/controllers/editor.js');
 require('scripts/controllers/errorpresenter.js');
+require('scripts/controllers/recompresenter.js');
 require('scripts/controllers/general-modal.js');
 require('scripts/controllers/header.js');
 require('scripts/controllers/import-file.js');
@@ -56,6 +57,7 @@ require('scripts/directives/schemamodel.js');
 require('scripts/directives/scroll-into-view-when.js');
 require('scripts/directives/stop-event.js');
 require('scripts/directives/track-event.js');
+require('scripts/directives/compile-template.js');
 
 // Enums
 require('scripts/enums/defaults.js');
