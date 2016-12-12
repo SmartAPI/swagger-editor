@@ -1,7 +1,7 @@
 'use strict';
 
 var _ = require('lodash');
-
+var ace = require('brace'); 
 /*
  * Autocomplete service extends Ace's completion mechanism to provide more
  * relevant completion candidates based on Swagger document.
@@ -11,12 +11,14 @@ SwaggerEditor.service('Autocomplete', function($rootScope, snippets,
     // Ace KeywordCompleter object
 
     var flag = false;
+    var profilerFlag = false;
     var fieldName = "";
     var suggestions = [];
     var counts = [];
     var myArr = [];
     var count_index = 0;
     var mustList = KeywordMap.getMust();
+    
 
     var KeywordCompleter = {
 
@@ -31,7 +33,18 @@ SwaggerEditor.service('Autocomplete', function($rootScope, snippets,
 
             // Let Ace select the first candidate
             editor.completer.autoSelect = true;
-
+            
+			$window.addEventListener('message', function(evt) {
+				if (!profilerFlag) {
+        			//alert(evt.data);
+        			var profilerData = evt.data.toString();
+        			profilerData = " '"+profilerData+"'";
+        			editor.execCommand("insertstring", profilerData);
+        			profilerFlag = true;
+        			angular.element('#profiler').remove();
+        		}
+        			   				 });
+        			   				 
             getPathForPosition(pos, prefix).then(function(path) {
                 // These function might shift or push to paths, therefore we're passing
                 // a clone of path to them
@@ -62,6 +75,7 @@ SwaggerEditor.service('Autocomplete', function($rootScope, snippets,
                 }
                 var keywordNsnippet = snippetsForPos.concat(keywordsForPos);
                 callback(null, _.uniqBy(keywordNsnippet, 'caption'));
+                
             });
         }
     };
@@ -238,13 +252,9 @@ SwaggerEditor.service('Autocomplete', function($rootScope, snippets,
                 pathLocalName = pathLocalName.replace('0', "");
             }
             if (pathLocalName.indexOf("responseDataType") !== -1) {
-                $rootScope.html = '<button ng-click="showIframe = !showIframe">Close</button><iframe id="profiler" width="800" height="1000" frameborder="0"  src="http://smart-api.info/profiler/" ng-if="!showIframe"></iframe>';
+                //'<button ng-click="showIframe = !showIframe">X</button>
+                $rootScope.html = '<iframe id="profiler" width="800" height="1000" frameborder="0"  src="http://smart-api.info/profiler/" ng-if="!showIframe"></iframe>';
                 $rootScope.profiler = $sce.trustAsHtml($rootScope.html);
-                    
-            	$window.addEventListener('message', function(evt) {
-        			alert(evt.data);
-   				 });
-           
             } 
             ///////
             if (path.length > 1 && path[path.length - 1] !== '0') {

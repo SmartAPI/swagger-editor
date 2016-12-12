@@ -140,7 +140,7 @@ SwaggerEditor.service('KeywordMap', function KeywordMap(defaults) {
   };
 
   var response = {
-    responseDataType: String,
+    responseDataType: Object,
     description: String,
     schema: jsonSchema,
     headers: {
