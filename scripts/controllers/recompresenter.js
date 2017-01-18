@@ -65,7 +65,7 @@ SwaggerEditor.controller('RecomPresenterCtrl', function RecomPresenterCtrl($scop
 
                     }
                // alert(value);
-                $scope.recomLinks.push("https://amrapalijz.github.io/smartapi/#"+value);
+                $scope.recomLinks.push("https://websmartapi.github.io/smartapi/#"+value);
                 }
             }
 
