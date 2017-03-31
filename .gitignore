@@ -5,6 +5,7 @@ node_modules/grunt-newer/.cache
 .grunt
 npm-debug.log
 node_modules
+dist
 *.sublime-workspace
 .*.swp
 buttons.diff
