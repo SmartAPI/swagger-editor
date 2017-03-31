@@ -3,12 +3,9 @@
 var _ = require('lodash');
 
 SwaggerEditor.controller('ErrorPresenterCtrl', function ErrorPresenterCtrl(
-  $scope, $rootScope, Storage, Editor, ASTManager) {
-  
-  
+$scope, $rootScope, Storage, Editor, ASTManager) {
   var ERROR_LEVEL = 900;
   var WARNING_LEVEL = 500;
-   
   $scope.isCollapsed = false;
 
   $scope.getErrorsAndWarnings = getErrorsAndWarnings;

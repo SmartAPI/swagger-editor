@@ -12,7 +12,7 @@ $(function() {
   if (!_.endsWith(pathname, '/')) {
     pathname += '/';
   }
-  
+
   var url = pathname + 'config/defaults.json';
 
   if (embeddedDefaults) {

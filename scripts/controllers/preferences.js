@@ -9,7 +9,6 @@ SwaggerEditor.controller('PreferencesCtrl', function PreferencesCtrl($scope,
     Preferences.get('pointerResolutionBasePath');
   $scope.suggestionServiceBasePath =
     Preferences.get('suggestionServiceBasePath');
-  
   $scope.save = function() {
     var keyPressDebounceTime = parseInt($scope.keyPressDebounceTime, 10);
     if (keyPressDebounceTime > 0) {

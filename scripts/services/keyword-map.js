@@ -9,55 +9,53 @@ SwaggerEditor.service('KeywordMap', function KeywordMap(defaults) {
    *
    * This is necessary because JSON Schema completion map has recursive
    * pointers
-  */
+   */
   /* eslint quote-props: ["error", "as-needed", { "keywords": false, "unnecessary": false }]*/
   var JSONSchema = function() {
-    _.extend(this,
-      {
-        title: String,
-        type: String,
-        format: String,
-        default: this,
-        description: String,
-        enum: [String],
-        minimum: String,
-        maximum: String,
-        exclusiveMinimum: String,
-        exclusiveMaximum: String,
-        multipleOf: String,
-        maxLength: String,
-        minLength: String,
-        pattern: String,
-        not: String,
+    _.extend(this, {
+      title: String,
+      type: String,
+      format: String,
+      default: this,
+      description: String,
+      enum: [String],
+      minimum: String,
+      maximum: String,
+      exclusiveMinimum: String,
+      exclusiveMaximum: String,
+      multipleOf: String,
+      maxLength: String,
+      minLength: String,
+      pattern: String,
+      not: String,
 
-        // jscs:disable
-        '$ref': String,
-        // jscs:enable
+      // jscs:disable
+      '$ref': String,
+      // jscs:enable
 
-        definitions: {
-          '.': this
-        },
+      definitions: {
+        '.': this
+      },
 
-        // array specific keys
-        items: [this],
-        minItems: String,
-        maxItems: String,
-        uniqueItems: String,
-        additionalItems: [this],
+      // array specific keys
+      items: [this],
+      minItems: String,
+      maxItems: String,
+      uniqueItems: String,
+      additionalItems: [this],
 
-        // object
-        maxProperties: String,
-        minProperties: String,
-        required: String,
-        additionalProperties: String,
-        allOf: [this],
-        properties: {
+      // object
+      maxProperties: String,
+      minProperties: String,
+      required: String,
+      additionalProperties: String,
+      allOf: [this],
+      properties: {
 
-          // property name
-          '.': this
-        }
+        // property name
+        '.': this
       }
-    );
+    });
   };
 
   var jsonSchema = new JSONSchema();
@@ -66,7 +64,7 @@ SwaggerEditor.service('KeywordMap', function KeywordMap(defaults) {
     'https',
     'ws',
     'wss'
-    
+
   ];
 
   var externalDocs = {
@@ -94,7 +92,7 @@ SwaggerEditor.service('KeywordMap', function KeywordMap(defaults) {
     'video/ogg',
     'video/mp4'
   ];
-  
+
   var shouldList = [
     'description',
     'produces',
@@ -105,32 +103,32 @@ SwaggerEditor.service('KeywordMap', function KeywordMap(defaults) {
     'externalDocs',
     'termsOfService',
     'schemes',
-    'parameters'
-        
+    'parameters',
+    'responseDataType'
+
   ];
-  
+
   var mustList = [
     'info',
-     'paths'       
+    'paths'
   ];
-  
+
   var nonSuggestibleList = [
     'description',
     'summary'
   ];
-  
+
   var header = {
     name: String,
     description: String
   };
 
   var parameter = {
-    name,
+    name: String,
     description: String,
     required: ['true', 'false'],
     schema: jsonSchema,
-    parameterType: [String],
-    parameterValueType: [String],
+    parameterType: ["InputParameter", "NumberOfResultsReturned", "OffsetParameter", "SortParameter"],
     examples: String,
     default: String
   };
@@ -147,7 +145,7 @@ SwaggerEditor.service('KeywordMap', function KeywordMap(defaults) {
       '.': header
     },
     examples: mimeTypes,
-    responseProfile: String    
+    responseProfile: String
   };
 
   var operation = {
@@ -202,7 +200,7 @@ SwaggerEditor.service('KeywordMap', function KeywordMap(defaults) {
         email: String,
         contributor: String,
         funding: String,
-        developerForum: String       
+        developerForum: String
       },
       license: {
         name: String,
@@ -218,7 +216,7 @@ SwaggerEditor.service('KeywordMap', function KeywordMap(defaults) {
       APIimplementationLanguage: String,
       APImaturity: String
     },
-    
+
     host: String,
     basePath: String,
 
@@ -267,45 +265,39 @@ SwaggerEditor.service('KeywordMap', function KeywordMap(defaults) {
       defaults.autocompleteExtension : {};
     return _.extend(map, extension);
   };
-  
+
   this.getShould = function() {
     return shouldList;
   };
-  
+
   this.getMust = function() {
     return mustList;
   };
-   
+
   this.getNonSuggestible = function() {
     return nonSuggestibleList;
   };
-  
-  this.isSuggestible = function(field){
+
+  this.isSuggestible = function(field) {
     if (this.getSuggestible().indexOf(field) !== -1)
-    	return true;
+      return true;
   };
-  
-  
+
   this.getSuggestedValues = function(field) {
-     var suggestions = [];
-     var url = "http://smart-api.info/api/suggestion?field="+"operations.parameters.name";
-     var xhr = new XMLHttpRequest();
-     xhr.onreadystatechange = function() {
-     if (xhr.readyState == 4 && xhr.status == 200) {
+    var suggestions = [];
+    var url = "http://smart-api.info/api/suggestion?field=operations.parameters.name";
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState === 4 && xhr.status === 200) {
         var myArr = JSON.parse(xhr.responseText);
         var arrayLength = myArr.field_values.buckets.length;
         for (var i = 0; i < arrayLength; i++) {
-        	suggestions.push(myArr.field_values.buckets[i].key);
-        	}       
+          suggestions.push(myArr.field_values.buckets[i].key);
         }
-     };
-     xhr.open('GET',url, true);
-     xhr.send();
-     return suggestions;
+      }
+    };
+    xhr.open('GET', url, true);
+    xhr.send();
+    return suggestions;
   };
-  
-  
-  
-  ////
-  
 });

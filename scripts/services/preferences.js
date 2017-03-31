@@ -19,33 +19,31 @@ SwaggerEditor.service('Preferences', function Preferences($localStorage,
     /*
      * Update the preview pane per keypress if it's true, otherwise after value
      * change in the editor, a "Reload" button will show up in preview pane
-    */
+     */
     liveRender: true,
 
     /*
      * Disable/enable auto-compelte functionallity.
-    */
+     */
     autoComplete: true,
 
     /*
      * Wait time for editor to react to keyboard events
-    */
+     */
     keyPressDebounceTime: defaults.keyPressDebounceTime,
 
     /*
      * JSON Pointer resolution base path
-    */
+     */
     pointerResolutionBasePath: defaults.pointerResolutionBasePath ||
       location.origin + location.pathname,
-      
-      /*
+
+    /*
      * JSON Pointer resolution base path for suggestion service
-    */
+     */
     suggestionServiceBasePath: defaults.suggestionServiceBasePath ||
       location.origin + location.pathname
   };
-  
-  
 
   var preferences = _.extend(defaultPreferences, $localStorage.preferences);
 
@@ -81,10 +79,11 @@ SwaggerEditor.service('Preferences', function Preferences($localStorage,
    * A global change hook for preferences change
    *
    * @param {function} fn - the callback function
-  */
+   */
   this.onChange = function(fn) {
     if (angular.isFunction(fn)) {
       changeListeners.push(fn);
     }
   };
 });
+

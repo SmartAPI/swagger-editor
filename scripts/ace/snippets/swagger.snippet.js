@@ -10,7 +10,6 @@ SwaggerEditor.config(function($provide) {
    * @return {string} - the snippet content for that operation
   */
   function makeOperationSnippet(operationName) {
-  
     return [
       '${1:' + operationName + '}:',
       '  summary: ${2}',
@@ -22,14 +21,11 @@ SwaggerEditor.config(function($provide) {
       '    ${4:200:}',
       '      description: ${5:OK}',
       '		 #optional: insert more response elements',
-      '      ${6}',      
+      '      ${6}',
       '${7}'
     ].join('\n');
   }
-  
-      
-  
-  
+
   /**
    * Makes an HTTP response code snippet's content based on code
    *
@@ -46,7 +42,7 @@ SwaggerEditor.config(function($provide) {
   }
 
   $provide.constant('snippets', [
-    
+
     {
       name: 'info',
       trigger: 'info',
@@ -60,9 +56,9 @@ SwaggerEditor.config(function($provide) {
         '  # add "contact" info:',
         '  ${5}'
       ].join('\n')
-    },	
-	
-	{
+    },
+
+    {
       name: 'contact',
       trigger: 'contact',
       path: ['info'],
@@ -75,8 +71,8 @@ SwaggerEditor.config(function($provide) {
         '  # optional: add more contact metadata',
         '${5}'
       ].join('\n')
-    },	
-    
+    },
+
     {
       name: 'schemes',
       trigger: 'schemes',
@@ -87,7 +83,7 @@ SwaggerEditor.config(function($provide) {
         '${2}'
       ].join('\n')
     },
-    
+
     {
       name: 'paths',
       trigger: 'pa',
@@ -96,6 +92,28 @@ SwaggerEditor.config(function($provide) {
         'paths:',
         '  #insert a "path" snippet',
         '  ${1}'
+      ].join('\n')
+    },
+
+    {
+      name: 'parameterValueType',
+      trigger: 'parameterValueType',
+      path: ['paths', '.', '.', 'parameters', '0'],
+      content: [
+        'parameterValueType:',
+        ' #enter search term(s) followed by a SPACE. Then hit CTRL-SPACE to get the identifiers',
+        ' - ${1}'
+      ].join('\n')
+    },
+
+    {
+      name: 'responseDataType',
+      trigger: 'responseDataType',
+      path: ['paths', '.', '.', 'responses', '.'],
+      content: [
+        'responseDataType:',
+        ' #Press CTRL-SPACE. The Profiler will open on the right panel',
+        ' ${1}'
       ].join('\n')
     },
 
@@ -173,11 +191,11 @@ SwaggerEditor.config(function($provide) {
         '  description: ${3}',
         '  type: ${4}',
         'required: ${5}',
-    '#optional: insert another parameter snippet',
+        '#optional: insert another parameter snippet',
         '${6}'
       ].join('\n')
     },
-    
+
      // other level parameter
     {
       name: 'parameter',
@@ -207,7 +225,7 @@ SwaggerEditor.config(function($provide) {
         '${5}'
       ].join('\n')
     },
-	
+
     {
       name: 'response',
       trigger: 'resp',

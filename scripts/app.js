@@ -9,6 +9,7 @@ var angular = require('angular');
 require('angular-json-schema-form');
 require('json-editor');
 require('ngstorage');
+require('ng-resource');
 require('angular-ui-ace');
 
 window.SwaggerEditor = angular.module('SwaggerEditor', [

@@ -52,6 +52,8 @@
               <th ng-if="hasAParameterWithDescription(getParameters())">Description</th>
               <th>Required</th>
               <th>Schema</th>
+              <th>Parameter type</th>
+	      <th>parameter value type</th>
             </tr>
           </thead>
           <tbody>
@@ -77,6 +79,10 @@
               <td>
                 <schema-model schema="parameter.schema"></schema-model>
               </td>
+              <td>{{parameter.parameterType}}</td>
+              <td> <ul ng-repeat="n in parameter.parameterValueType track by $index">
+                   <li> <a title={{n}} href={{n}} target="_blank">{{ n | limitTo : 25 : 23}}</a></li>
+                   </ul> </td>
             </tr>
           </tbody>
         </table>

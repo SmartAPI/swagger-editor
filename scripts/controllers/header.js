@@ -6,7 +6,10 @@ SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $uibModal,
   $stateParams, $state, $rootScope, Storage, Builder, FileLoader, Editor,
   Codegen, Preferences, YAML, defaults, strings, $localStorage, $http) {
   if ($stateParams.path) {
-    $scope.breadcrumbs = [{active: true, name: $stateParams.path}];
+    $scope.breadcrumbs = [{
+      active: true,
+      name: $stateParams.path
+    }];
   } else {
     $scope.breadcrumbs = [];
   }
@@ -61,7 +64,7 @@ SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $uibModal,
 
   /**
    * @param {object} resp - response
-  */
+   */
   function showCodegenError(resp) {
     $uibModal.open({
       template: require('templates/code-gen-error-modal.html'),
@@ -91,40 +94,37 @@ SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $uibModal,
     FileLoader.loadFromUrl('spec-files/guide.yaml').then(function(value) {
       $rootScope.editorValue = value;
       Storage.save('yaml', value);
-      $state.go('home', {tags: null});
+      $state.go('home', {
+        tags: null
+      });
     });
   };
-/// save api document button
+  // save api document button
   $scope.saveAPIdoc = function() {
-      var value = $rootScope.editorValue;
-      Storage.save('yaml', value);
-      var jsonValue = JSON.stringify(yaml.load(value));
+    var value = $rootScope.editorValue;
+    Storage.save('yaml', value);
+    var jsonValue = JSON.stringify(yaml.load(value));
     var setting = {
- 		async: true,
-        crossDomain: true,
- 		method: 'POST',
- 		url: 'http://smart-api.info/api?api_key=G93U24vcjrZReaRNfZ7qz1Y3Ltd941TL&overwrite=false',
- 		headers: {
-   			"cache-control": "no-cache"
- 		},
- 		data: jsonValue
- 	  //data: '{\n    \"info\":{\n        \"version\":\"6.0.0_test\",\n        \"title\":\"MyGene.info API Test\",\n        \"description\":\"Documentation of the MyGene.info Gene Query web services. Learn more about [MyGene.info](http://mygene.info/)\",\n        \"contact\":{\n            \"responsibleOrganization\":\"The Scripps Research Institute\",\n            \"responsibleDeveloper\":\"Chunlei Wu\",\n            \"url\":\"http://mygene.info\",\n            \"email\":\"help@mygene.info\"\n        }\n    }\n}'
-		};
-
- //$http(setting).then(function(){alert("Your API Document is Saved!");}, function(){alert("error");});
- $http(setting).then(function successCallback(response) {
-    
-    //alert(JSON.stringify(response.data));
-    if (response.data.success) 
-    	alert("Your API Document is saved");
-	else
-		alert("Your API Document cannot be saved!\n"+response.data.error);    	
-  }, function errorCallback(response) {
-    
-    alert("Error"+JSON.stringify(response.data));
-});         
+      async: true,
+      crossDomain: true,
+      method: 'POST',
+      url: 'http://smart-api.info/api?api_key=G93U24vcjrZReaRNfZ7qz1Y3Ltd941TL&overwrite=false',
+      headers: {
+        "cache-control": "no-cache"
+      },
+      data: jsonValue
+      // data: '{\n    \"info\":{\n        \"version\":\"6.0.0_test\",\n        \"title\":\"MyGene.info API Test\",\n        \"description\":\"Documentation of the MyGene.info Gene Query web services. Learn more about [MyGene.info](http://mygene.info/)\",\n        \"contact\":{\n            \"responsibleOrganization\":\"The Scripps Research Institute\",\n            \"responsibleDeveloper\":\"Chunlei Wu\",\n            \"url\":\"http://mygene.info\",\n            \"email\":\"help@mygene.info\"\n        }\n    }\n}'
+    };
+    // $http(setting).then(function(){alert("Your API Document is Saved!");}, function(){alert("error");});
+    $http(setting).then(function successCallback(response) {
+      if (response.data.success)
+        alert("Your API Document is saved"); // eslint-disable-line no-alert
+      else
+        alert("Your API Document cannot be saved!\n" + response.data.error); // eslint-disable-line no-alert
+    }, function errorCallback(response) {
+      alert("Error" + JSON.stringify(response.data)); // eslint-disable-line no-alert
+    });
   };
-///
   $scope.onFileMenuOpen = function() {
     assignDownloadHrefs();
     $rootScope.$broadcast('toggleWatchers', false);
@@ -230,7 +230,9 @@ SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $uibModal,
         }
 
         json = JSON.stringify(json, null, 4);
-        var jsonBlob = new Blob([json], {type: MIME_TYPE});
+        var jsonBlob = new Blob([json], {
+          type: MIME_TYPE
+        });
         $scope.jsonDownloadHref = window.URL.createObjectURL(jsonBlob);
         $scope.jsonDownloadUrl = [
           MIME_TYPE,
@@ -239,7 +241,9 @@ SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $uibModal,
         ].join(':');
 
         // YAML
-        var yamlBlob = new Blob([yaml], {type: MIME_TYPE});
+        var yamlBlob = new Blob([yaml], {
+          type: MIME_TYPE
+        });
         $scope.yamlDownloadHref = window.URL.createObjectURL(yamlBlob);
         $scope.yamlDownloadUrl = [
           MIME_TYPE,

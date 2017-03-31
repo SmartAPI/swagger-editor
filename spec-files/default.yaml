@@ -1,277 +1,795 @@
-# this is an example of the Uber API
-# as a demonstration of an API spec in YAML
 swagger: '2.0'
 info:
-  title: Uber API
-  description: Move your app forward with the Uber API
-  version: "1.0.0"
-# the domain of the service
-host: api.uber.com
-# array of all schemes that your API supports
+  version: 3.0.0
+  title: MyGene.info API
+  contact:
+    responsibleDeveloper: Chunlei Wu
+    responsibleOrganization: The Scripps Research Institute
+    url: 'http://mygene.info'
+    email: help@mygene.info
+  description: >-
+    Documentation of the MyGene.info Gene Query web services. Learn more about
+    [MyGene.info](http://mygene.info/)
+host: mygene.info
+basePath: /v3
 schemes:
+  - http
   - https
-# will be prefixed to all paths
-basePath: /v1
 produces:
   - application/json
+tags:
+  - name: query
+    description: Query for gene information
+  - name: gene
+    description: Gene annotation information
+  - name: metadata
+    description: Metadata about the data available from MyGene.info.
 paths:
-  /products:
-    get:
-      summary: Product Types
+  /gene:
+    post:
+      operationId: getGenes
+      responses:
+        '200':
+          schema:
+            items:
+              properties:
+                taxid:
+                  type: integer
+                symbol:
+                  type: string
+                _id:
+                  type: string
+                entrezgene:
+                  type: integer
+                query:
+                  type: string
+                name:
+                  type: string
+              type: object
+            type: array
+          description: Successful response
       description: |
-        The Products endpoint returns information about the *Uber* products
-        offered at a given location. The response includes the display name
-        and other details about each product, and lists the products in the
-        proper display order.
+        Make gene queries in batch for a list of Entrez or Ensembl gene ids.
       parameters:
-        - name: latitude
+        - name: ids
           in: query
-          description: Latitude component of location.
+          description: >-
+            multiple geneids seperated by comma, e.g., "ids=1017,1018" or
+            "ids=695,ENSG00000123374". Note that currently we only take the
+            input ids up to 1000 maximum, the rest will be omitted.
           required: true
-          type: number
-          format: double
-        - name: longitude
+          type: string
+        - name: fields
           in: query
-          description: Longitude component of location.
-          required: true
-          type: number
-          format: double
+          description: >-
+            a comma-separated fields to limit the fields returned from the
+            matching gene hits. The supported field names can be found from any
+            gene object (e.g. http://mygene.info/v2/gene/1017). Note that it
+            supports dot notation as well, e.g., you can pass "refseq.rna". If
+            "fields=all", all available fields will be returned. Default
+            "symbol,name,taxid,entrezgene,ensemblgene".
+          required: false
+          type: string
+        - name: species
+          in: query
+          description: >-
+            Optional, can be used to limit the gene hits from given species. You
+            can use "common names" for nine common species (human, mouse, rat,
+            fruitfly, nematode, zebrafish, thale-cress, frog and pig). All other
+            species, you can provide their taxonomy ids. Multiple species can be
+            passed using comma as a separator. Default all.
+          required: false
+          type: string
+        - name: dotfield
+          in: query
+          description: >-
+            control the format of the returned fields when passed "fields"
+            parameter contains dot notation, e.g. "fields=refseq.rna". If "true"
+            or "1", the returned data object contains a single "refseq.rna"
+            field, otherwise ("false" or "0"), a single "refseq" field with a
+            sub-field of "rna". Default true.
+          required: false
+          type: string
+        - name: email
+          in: query
+          description: >-
+            If you are regular users of our services, we encourage you to
+            provide us an email, so that we can better track the usage or follow
+            up with you.
+          required: false
+          type: string
       tags:
-        - Products
-      responses:
-        200:
-          description: An array of products
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/Product'
-        default:
-          description: Unexpected error
-          schema:
-            $ref: '#/definitions/Error'
-  /estimates/price:
+        - gene
+  '/gene/{geneid}':
     get:
-      summary: Price Estimates
+      operationId: getAnnotation
+      responses:
+        '200':
+          schema:
+            properties:
+              pdb:
+                items:
+                  type: string
+                type: array
+              ec:
+                type: string
+              symbol:
+                type: string
+              ensembl:
+                properties:
+                  gene:
+                    type: string
+                  transcript:
+                    items:
+                      type: string
+                    type: array
+                type: object
+              summary:
+                type: string
+              homologene:
+                properties:
+                  genes:
+                    items:
+                      type: integer
+                    type: array
+                  id:
+                    type: integer
+                type: object
+              accession:
+                properties:
+                  genomic:
+                    items:
+                      type: string
+                    type: array
+                  rna:
+                    items:
+                      type: string
+                    type: array
+                  protein:
+                    items:
+                      type: string
+                    type: array
+                type: object
+              prosite:
+                type: string
+              refseq:
+                properties:
+                  genomic:
+                    items:
+                      type: string
+                    type: array
+                  rna:
+                    items:
+                      type: string
+                    type: array
+                  protein:
+                    items:
+                      type: string
+                    type: array
+                type: object
+              pir:
+                type: string
+              type_of_gene:
+                type: string
+              alias:
+                items:
+                  type: string
+                type: array
+              HGNC:
+                type: integer
+              Vega:
+                type: string
+              map_location:
+                type: string
+              reporter:
+                properties:
+                  HTA-2_0:
+                    type: string
+                  HG-U133_Plus_2:
+                    items:
+                      type: string
+                    type: array
+                  HG-U95Av2:
+                    items:
+                      type: string
+                    type: array
+                  HuEx-1_0:
+                    type: integer
+                  HuGene-1_1:
+                    type: integer
+                  HuGene-2_1:
+                    type: integer
+                type: object
+              pfam:
+                type: string
+              genomic_pos_hg19:
+                properties:
+                  chr:
+                    type: integer
+                  end:
+                    type: integer
+                  start:
+                    type: integer
+                  strand:
+                    type: integer
+                type: object
+              taxid:
+                type: integer
+              reagent:
+                properties:
+                  GNF_hs-ORFeome1_1_reads:
+                    properties:
+                      relationonship:
+                        type: string
+                      id:
+                        type: string
+                    type: object
+                  GNF_hs-druggable_plasmid-shRNA:
+                    items:
+                      properties:
+                        relationonship:
+                          type: string
+                        id:
+                          type: string
+                      type: object
+                    type: array
+                  GNF_hs_LentiORF-Jred:
+                    properties:
+                      relationonship:
+                        type: string
+                      id:
+                        type: string
+                    type: object
+                  GNF_hs_LentiORF-HA-MYC:
+                    properties:
+                      relationship:
+                        type: string
+                      id:
+                        type: string
+                    type: object
+                  GNF_Qia_hs-genome_v1_siRNA:
+                    items:
+                      properties:
+                        relationonship:
+                          type: string
+                        id:
+                          type: string
+                      type: object
+                    type: array
+                  GNF_hs-Origene:
+                    items:
+                      properties:
+                        relationonship:
+                          type: string
+                        id:
+                          type: string
+                      type: object
+                    type: array
+                  NIBRI_hs-Secretome_pDEST:
+                    properties:
+                      relationship:
+                        type: string
+                      id:
+                        type: string
+                    type: object
+                  Invitrogen_IVTHSSIPKv2:
+                    items:
+                      properties:
+                        relationonship:
+                          type: string
+                        id:
+                          type: string
+                      type: object
+                    type: array
+                  GNF_mm+hs-MGC:
+                    properties:
+                      relationonship:
+                        type: string
+                      id:
+                        type: string
+                    type: object
+                  NOVART_hs-genome_siRNA:
+                    items:
+                      properties:
+                        relationonship:
+                          type: string
+                        id:
+                          type: string
+                      type: object
+                    type: array
+                  GNF_hs-druggable_lenti-shRNA:
+                    items:
+                      properties:
+                        relationonship:
+                          type: string
+                        id:
+                          type: string
+                      type: object
+                    type: array
+                  GNF_hs-pkinase_IDT-siRNA:
+                    items:
+                      properties:
+                        relationonship:
+                          type: string
+                        id:
+                          type: string
+                      type: object
+                    type: array
+                  GNF_hs-druggable_siRNA:
+                    items:
+                      properties:
+                        relationonship:
+                          type: string
+                        id:
+                          type: string
+                      type: object
+                    type: array
+                type: object
+              pharmgkb:
+                type: string
+              wikipedia:
+                properties:
+                  url_stub:
+                    type: string
+                type: object
+              exons:
+                type: object
+              uniprot:
+                properties:
+                  TrEMBL:
+                    items:
+                      type: string
+                    type: array
+                  Swiss-Prot:
+                    type: string
+                type: object
+              _id:
+                type: string
+              pathway:
+                properties:
+                  netpath:
+                    items:
+                      properties:
+                        id:
+                          type: string
+                        name:
+                          type: string
+                      type: object
+                    type: array
+                  kegg:
+                    items:
+                      properties:
+                        id:
+                          type: string
+                        name:
+                          type: string
+                      type: object
+                    type: array
+                  biocarta:
+                    items:
+                      properties:
+                        id:
+                          type: string
+                        name:
+                          type: string
+                      type: object
+                    type: array
+                  wikipathways:
+                    items:
+                      properties:
+                        id:
+                          type: string
+                        name:
+                          type: string
+                      type: object
+                    type: array
+                  pid:
+                    items:
+                      properties:
+                        id:
+                          type: string
+                        name:
+                          type: string
+                      type: object
+                    type: array
+                  reactome:
+                    items:
+                      properties:
+                        id:
+                          type: string
+                        name:
+                          type: string
+                      type: object
+                    type: array
+                type: object
+              MIM:
+                type: integer
+              go:
+                properties:
+                  BP:
+                    items:
+                      properties:
+                        term:
+                          type: string
+                        id:
+                          type: string
+                        evidence:
+                          type: string
+                      type: object
+                    type: array
+                  MF:
+                    items:
+                      properties:
+                        term:
+                          type: string
+                        id:
+                          type: string
+                        evidence:
+                          type: string
+                      type: object
+                    type: array
+                  CC:
+                    items:
+                      properties:
+                        term:
+                          type: string
+                        id:
+                          type: string
+                        evidence:
+                          type: string
+                      type: object
+                    type: array
+                type: object
+              HPRD:
+                type: integer
+              ipi:
+                items:
+                  type: string
+                type: array
+              interpro:
+                items:
+                  properties:
+                    short_desc:
+                      type: string
+                    id:
+                      type: string
+                    description:
+                      type: string
+                  type: object
+                type: array
+              unigene:
+                items:
+                  type: string
+                type: array
+              genomic_pos:
+                properties:
+                  chr:
+                    type: integer
+                  end:
+                    type: integer
+                  start:
+                    type: integer
+                  strand:
+                    type: integer
+                type: object
+              entrezgene:
+                type: string
+              generif:
+                items:
+                  properties:
+                    text:
+                      type: string
+                    pubmed:
+                      type: string
+                  type: object
+                type: array
+              name:
+                type: string
+            type: object
+          description: Successful response
       description: |
-        The Price Estimates endpoint returns an estimated price range
-        for each product offered at a given location. The price estimate is
-        provided as a formatted string with the full price range and the localized
-        currency symbol.<br><br>The response also includes low and high estimates,
-        and the [ISO 4217](http://en.wikipedia.org/wiki/ISO_4217) currency code for
-        situations requiring currency conversion. When surge is active for a particular
-        product, its surge_multiplier will be greater than 1, but the price estimate
-        already factors in this multiplier.
+        Retrieve gene annotation based on Entrez or Ensembl gene id, support
+        JSONP and CORS as well.
       parameters:
-        - name: start_latitude
-          in: query
-          description: Latitude component of start location.
+        - name: geneid
+          in: path
+          description: >-
+            Entrez or Ensembl gene id, e.g., 1017, ENSG00000170248. A retired
+            Entrez Gene id works too if it is replaced by a new one, e.g.,
+            245794
           required: true
-          type: number
-          format: double
-        - name: start_longitude
-          in: query
-          description: Longitude component of start location.
-          required: true
-          type: number
-          format: double
-        - name: end_latitude
-          in: query
-          description: Latitude component of end location.
-          required: true
-          type: number
-          format: double
-        - name: end_longitude
-          in: query
-          description: Longitude component of end location.
-          required: true
-          type: number
-          format: double
-      tags:
-        - Estimates
-      responses:
-        200:
-          description: An array of price estimates by product
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/PriceEstimate'
-        default:
-          description: Unexpected error
-          schema:
-            $ref: '#/definitions/Error'
-  /estimates/time:
-    get:
-      summary: Time Estimates
-      description: The Time Estimates endpoint returns ETAs for all products offered at a given location, with the responses expressed as integers in seconds. We recommend that this endpoint be called every minute to provide the most accurate, up-to-date ETAs.
-      parameters:
-        - name: start_latitude
-          in: query
-          description: Latitude component of start location.
-          required: true
-          type: number
-          format: double
-        - name: start_longitude
-          in: query
-          description: Longitude component of start location.
-          required: true
-          type: number
-          format: double
-        - name: customer_uuid
-          in: query
           type: string
-          format: uuid
-          description: Unique customer identifier to be used for experience customization.
-        - name: product_id
+        - name: fields
           in: query
+          description: >-
+            a comma-separated fields to limit the fields returned from the
+            matching gene hits. The supported field names can be found from any
+            gene object (e.g. http://mygene.info/v2/gene/1017). Note that it
+            supports dot notation as well, e.g., you can pass "refseq.rna". If
+            "fields=all", all available fields will be returned. Default
+            "symbol,name,taxid,entrezgene,ensemblgene".
+          required: false
           type: string
-          description: Unique identifier representing a specific product for a given latitude & longitude.
-      tags:
-        - Estimates
-      responses:
-        200:
-          description: An array of products
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/Product'
-        default:
-          description: Unexpected error
-          schema:
-            $ref: '#/definitions/Error'
-  /me:
-    get:
-      summary: User Profile
-      description: The User Profile endpoint returns information about the Uber user that has authorized with the application.
-      tags:
-        - User
-      responses:
-        200:
-          description: Profile information for a user
-          schema:
-            $ref: '#/definitions/Profile'
-        default:
-          description: Unexpected error
-          schema:
-            $ref: '#/definitions/Error'
-  /history:
-    get:
-      summary: User Activity
-      description: The User Activity endpoint returns data about a user's lifetime activity with Uber. The response will include pickup locations and times, dropoff locations and times, the distance of past requests, and information about which products were requested.<br><br>The history array in the response will have a maximum length based on the limit parameter. The response value count may exceed limit, therefore subsequent API requests may be necessary.
-      parameters:
-        - name: offset
+        - name: callback
           in: query
+          description: you can pass a "callback" parameter to make a JSONP call.
+          required: false
+          type: string
+        - name: filter
+          in: query
+          description: alias for "fields" parameter.
+          required: false
+          type: string
+        - name: dotfield
+          in: query
+          description: >-
+            control the format of the returned fields when passed "fields"
+            parameter contains dot notation, e.g. "fields=refseq.rna". If "true"
+            or "1", the returned data object contains a single "refseq.rna"
+            field, otherwise ("false" or "0"), a single "refseq" field with a
+            sub-field of "rna". Default true.
+          required: false
+          type: string
+        - name: email
+          in: query
+          description: >-
+            If you are regular users of our services, we encourage you to
+            provide us an email, so that we can better track the usage or follow
+            up with you.
+          required: false
+          type: string
+      tags:
+        - gene
+  /metadata:
+    get:
+      operationId: getMetadata
+      responses:
+        '200':
+          schema:
+            properties:
+              source:
+                type: string
+              stats:
+                properties:
+                  total_ensembl_genes_mapped_to_entrez:
+                    type: integer
+                  total_species:
+                    type: integer
+                  total_ensembl_only_genes:
+                    type: integer
+                  total_entrez_genes:
+                    type: integer
+                  total_genes:
+                    type: integer
+                  total_ensembl_genes:
+                    type: integer
+                type: object
+              src_version:
+                properties:
+                  uniprot:
+                    type: integer
+                  pharmgkb:
+                    type: integer
+                  entrez:
+                    type: integer
+                  netaffy:
+                    type: string
+                  ensembl:
+                    type: integer
+                  ucsc:
+                    type: integer
+                  refseq:
+                    type: integer
+                  cpdb:
+                    type: integer
+                type: object
+              app_revision:
+                type: string
+              timestamp:
+                type: string
+              taxonomy:
+                properties:
+                  zebrafish:
+                    type: integer
+                  human:
+                    type: integer
+                  fruitfly:
+                    type: integer
+                  frog:
+                    type: integer
+                  thale-cress":
+                    type: integer
+                  mouse:
+                    type: integer
+                  rat:
+                    type: integer
+                  nematode:
+                    type: integer
+                  pig:
+                    type: integer
+                type: object
+              available_fields:
+                type: string
+              genome_assembly:
+                properties:
+                  zebrafish:
+                    type: string
+                  human:
+                    type: string
+                  fruitfly:
+                    type: string
+                  frog:
+                    type: string
+                  mouse:
+                    type: string
+                  rat:
+                    type: string
+                  nematode:
+                    type: string
+                  pig:
+                    type: string
+                type: object
+            type: object
+          description: Successful response
+      description: |
+        Get metadata about the data available from MyGene.info
+      parameters:
+        - name: callback
+          in: query
+          description: you can pass a "callback" parameter to make a JSONP call.
+          required: false
+          type: string
+      tags:
+        - metadata
+  /query:
+    get:
+      operationId: queryGene
+      responses:
+        '200':
+          schema:
+            properties:
+              hits:
+                items:
+                  properties:
+                    taxid:
+                      type: integer
+                    _id:
+                      type: integer
+                    symbol:
+                      type: string
+                    entrezgene:
+                      type: integer
+                    name:
+                      type: string
+                  type: object
+                type: array
+              took:
+                type: integer
+              total:
+                type: integer
+              max_score:
+                type: integer
+            type: object
+          description: Successful response
+      description: >-
+        Make gene query and return matching gene list. Support JSONP and CORS as
+        well.
+      parameters:
+        - name: q
+          in: query
+          description: >-
+            Query string. Examples "CDK2", "NM_052827", "204639_at". The
+            detailed query syntax can be found at
+            http://docs.mygene.info/en/latest/doc/query_service.html
+          required: true
+          type: string
+        - name: fields
+          in: query
+          description: >-
+            A comma-separated field to limit the fields returned from the
+            matching gene hits. The supported field names can be found from any
+            gene object (e.g. http://mygene.info/v2/gene/1017). Note that it
+            supports dot notation as well, e.g., you can pass "refseq.rna". If
+            "fields=all", all available fields will be returned. Default
+            "symbol,name,taxid,entrezgene,ensemblgene".
+          required: false
+          type: string
+        - name: species
+          in: query
+          description: >-
+            can be used to limit the gene hits from given species. You can use
+            "common names" for nine common species (human, mouse, rat, fruitfly,
+            nematode, zebrafish, thale-cress, frog and pig). All other species,
+            you can provide their taxonomy ids. Multiple species can be passed
+            using comma as a separator. Passing “all” will query against all
+            available species. Default human,mouse,rat.
+          required: false
+          type: string
+        - name: size
+          in: query
+          description: >-
+            the maximum number of matching gene hits to return (with a cap of
+            1000 at the moment). Default 10.
+          required: false
           type: integer
-          format: int32
-          description: Offset the list of returned results by this amount. Default is zero.
+        - name: from
+          in: query
+          description: >-
+            the number of matching gene hits to skip, starting from 0. Combining
+            with "size" parameter, this can be useful for paging. Default 0.
+          required: false
+          type: integer
+        - name: sort
+          in: query
+          description: >-
+            comma-separated fields to sort on. Prefix with "-" for descending
+            order, otherwise in ascending order. Sort by matching scores in
+            decending order.
+          required: false
+          type: string
+        - name: facets
+          in: query
+          description: >-
+            a single field or comma-separated fields to return facets, for
+            example, “facets=taxid”, “facets=taxid,type_of_gene”.
+          required: false
+          type: string
+        - name: species_facet_filter
+          in: query
+          description: >-
+            relevant when faceting on species (i.e., “facets=taxid” are passed).
+            It’s used to pass species filter without changing the scope of
+            faceting, so that the returned facet counts won’t change. Either
+            species name or taxonomy id can be used, just like “species”
+            parameter above.
+          required: false
+          type: string
+        - name: entrezonly
+          in: query
+          description: >-
+            when passed as “true” or “1”, the query returns only the hits with
+            valid Entrez gene ids. Default: false
+          required: false
+          type: boolean
+        - name: ensemblonly
+          in: query
+          description: >-
+            when passed as “true” or “1”, the query returns only the hits with
+            valid Ensembl gene ids. Default: false.
+          required: false
+          type: boolean
+        - name: callback
+          in: query
+          description: you can pass a "callback" parameter to make a JSONP call.
+          required: false
+          type: string
+        - name: dotfield
+          in: query
+          description: >-
+            control the format of the returned fields when passed "fields"
+            parameter contains dot notation, e.g. "fields=refseq.rna". If "true"
+            or "1", the returned data object contains a single "refseq.rna"
+            field, otherwise ("false" or "0"), a single "refseq" field with a
+            sub-field of "rna". Default: true
+          type: boolean
+        - name: filter
+          in: query
+          description: alias for "fields" parameter.
+          type: string
         - name: limit
           in: query
+          description: alias for "size" parameter.
           type: integer
-          format: int32
-          description: Number of items to retrieve. Default is 5, maximum is 100.
+        - name: skip
+          in: query
+          description: alias for "from" parameter.
+          type: integer
+        - name: email
+          in: query
+          description: >-
+            If you are regular users of our services, we encourage you to
+            provide us an email, so that we can better track the usage or follow
+            up with you.
+          type: string
       tags:
-        - User
-      responses:
-        200:
-          description: History information for the given user
-          schema:
-            $ref: '#/definitions/Activities'
-        default:
-          description: Unexpected error
-          schema:
-            $ref: '#/definitions/Error'
-definitions:
-  Product:
-    type: object
-    properties:
-      product_id:
-        type: string
-        description: Unique identifier representing a specific product for a given latitude & longitude. For example, uberX in San Francisco will have a different product_id than uberX in Los Angeles.
-      description:
-        type: string
-        description: Description of product.
-      display_name:
-        type: string
-        description: Display name of product.
-      capacity:
-        type: string
-        description: Capacity of product. For example, 4 people.
-      image:
-        type: string
-        description: Image URL representing the product.
-  PriceEstimate:
-    type: object
-    properties:
-      product_id:
-        type: string
-        description: Unique identifier representing a specific product for a given latitude & longitude. For example, uberX in San Francisco will have a different product_id than uberX in Los Angeles
-      currency_code:
-        type: string
-        description: "[ISO 4217](http://en.wikipedia.org/wiki/ISO_4217) currency code."
-      display_name:
-        type: string
-        description: Display name of product.
-      estimate:
-        type: string
-        description: Formatted string of estimate in local currency of the start location. Estimate could be a range, a single number (flat rate) or "Metered" for TAXI.
-      low_estimate:
-        type: number
-        description: Lower bound of the estimated price.
-      high_estimate:
-        type: number
-        description: Upper bound of the estimated price.
-      surge_multiplier:
-        type: number
-        description: Expected surge multiplier. Surge is active if surge_multiplier is greater than 1. Price estimate already factors in the surge multiplier.
-  Profile:
-    type: object
-    properties:
-      first_name:
-        type: string
-        description: First name of the Uber user.
-      last_name:
-        type: string
-        description: Last name of the Uber user.
-      email:
-        type: string
-        description: Email address of the Uber user
-      picture:
-        type: string
-        description: Image URL of the Uber user.
-      promo_code:
-        type: string
-        description: Promo code of the Uber user.
-  Activity:
-    type: object
-    properties:
-      uuid:
-        type: string
-        description: Unique identifier for the activity
-  Activities:
-    type: object
-    properties:
-      offset:
-        type: integer
-        format: int32
-        description: Position in pagination.
-      limit:
-        type: integer
-        format: int32
-        description: Number of items to retrieve (100 max).
-      count:
-        type: integer
-        format: int32
-        description: Total number of items available.
-      history:
-        type: array
-        items:
-          $ref: '#/definitions/Activity'
-  Error:
-    type: object
-    properties:
-      code:
-        type: integer
-        format: int32
-      message:
-        type: string
-      fields:
-        type: string
+        - query

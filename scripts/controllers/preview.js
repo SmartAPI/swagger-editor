@@ -22,7 +22,6 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
   $scope.foldEditor = FoldStateManager.foldEditor;
   $scope.listAllOperation = listAllOperation;
   $scope.listAllDefnitions = listAllDefnitions;
-   
   Storage.addChangeListener('yaml', update);
   Preferences.onChange(function() {
     update($rootScope.editorValue);

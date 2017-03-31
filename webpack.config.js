@@ -25,6 +25,9 @@ var config = {
     root: __dirname,
     modulesDirectories: ['node_modules']
   },
+  node: {
+    fs: 'empty'
+  },
 
   plugins: [
     new ExtractTextPlugin('styles.css')

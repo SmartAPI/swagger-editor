@@ -1,16 +1,18 @@
-# This is a guide to get you started quickly and generate your API metadata.
+# This is a guide to get you started quickly and generate your API document.
 # Be aware that YAML has indentation based scoping.
 # Auto-suggestion support is available:
-  # for field suggestion press Alt-Space
-  # for value suggestion press a-Space
-  # if you have a specific field/value in mind, start typing for available options.
+  # Start typing for available matched options, or press Ctrl-Space to get all options!
 swagger: '2.0'
 
 # This is your API metadata
 
 # insert 'info' block to add general information about your API
 
+# insert 'host'
+ 
+# insert 'basepath'
 
+# insert 'schemes'
 
 
 # insert 'paths' block to add metadata about your paths endpoints
