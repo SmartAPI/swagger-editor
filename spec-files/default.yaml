@@ -1,7 +1,7 @@
 swagger: '2.0'
 info:
-  version: 3.0.0
   title: MyGene.info API
+  version: 3.0.0.1
   contact:
     responsibleDeveloper: Chunlei Wu
     responsibleOrganization: The Scripps Research Institute
@@ -25,471 +25,114 @@ tags:
   - name: metadata
     description: Metadata about the data available from MyGene.info.
 paths:
-  /gene:
-    post:
-      operationId: getGenes
+  /metadata:
+    get:
+      description: |
+        Get metadata about the data available from MyGene.info
+      tags:
+        - metadata
+      parameters:
+        - name: callback
+          in: query
+          description: you can pass a "callback" parameter to make a JSONP call.
+          required: false
+          type: string
+      operationId: getMetadata
       responses:
         '200':
           schema:
-            items:
-              properties:
-                taxid:
-                  type: integer
-                symbol:
-                  type: string
-                _id:
-                  type: string
-                entrezgene:
-                  type: integer
-                query:
-                  type: string
-                name:
-                  type: string
-              type: object
-            type: array
+            type: object
+            properties:
+              genome_assembly:
+                type: object
+                properties:
+                  pig:
+                    type: string
+                  nematode:
+                    type: string
+                  rat:
+                    type: string
+                  zebrafish:
+                    type: string
+                  fruitfly:
+                    type: string
+                  frog:
+                    type: string
+                  human:
+                    type: string
+                  mouse:
+                    type: string
+              stats:
+                type: object
+                properties:
+                  total_species:
+                    type: integer
+                  total_entrez_genes:
+                    type: integer
+                  total_ensembl_genes_mapped_to_entrez:
+                    type: integer
+                  total_ensembl_only_genes:
+                    type: integer
+                  total_ensembl_genes:
+                    type: integer
+                  total_genes:
+                    type: integer
+              timestamp:
+                type: string
+              src_version:
+                type: object
+                properties:
+                  refseq:
+                    type: integer
+                  pharmgkb:
+                    type: integer
+                  cpdb:
+                    type: integer
+                  entrez:
+                    type: integer
+                  netaffy:
+                    type: string
+                  ucsc:
+                    type: integer
+                  uniprot:
+                    type: integer
+                  ensembl:
+                    type: integer
+              available_fields:
+                type: string
+              source:
+                type: string
+              taxonomy:
+                type: object
+                properties:
+                  pig:
+                    type: integer
+                  nematode:
+                    type: integer
+                  rat:
+                    type: integer
+                  zebrafish:
+                    type: integer
+                  fruitfly:
+                    type: integer
+                  frog:
+                    type: integer
+                  human:
+                    type: integer
+                  thale-cress":
+                    type: integer
+                  mouse:
+                    type: integer
+              app_revision:
+                type: string
           description: Successful response
-      description: |
-        Make gene queries in batch for a list of Entrez or Ensembl gene ids.
-      parameters:
-        - name: ids
-          in: query
-          description: >-
-            multiple geneids seperated by comma, e.g., "ids=1017,1018" or
-            "ids=695,ENSG00000123374". Note that currently we only take the
-            input ids up to 1000 maximum, the rest will be omitted.
-          required: true
-          type: string
-        - name: fields
-          in: query
-          description: >-
-            a comma-separated fields to limit the fields returned from the
-            matching gene hits. The supported field names can be found from any
-            gene object (e.g. http://mygene.info/v2/gene/1017). Note that it
-            supports dot notation as well, e.g., you can pass "refseq.rna". If
-            "fields=all", all available fields will be returned. Default
-            "symbol,name,taxid,entrezgene,ensemblgene".
-          required: false
-          type: string
-        - name: species
-          in: query
-          description: >-
-            Optional, can be used to limit the gene hits from given species. You
-            can use "common names" for nine common species (human, mouse, rat,
-            fruitfly, nematode, zebrafish, thale-cress, frog and pig). All other
-            species, you can provide their taxonomy ids. Multiple species can be
-            passed using comma as a separator. Default all.
-          required: false
-          type: string
-        - name: dotfield
-          in: query
-          description: >-
-            control the format of the returned fields when passed "fields"
-            parameter contains dot notation, e.g. "fields=refseq.rna". If "true"
-            or "1", the returned data object contains a single "refseq.rna"
-            field, otherwise ("false" or "0"), a single "refseq" field with a
-            sub-field of "rna". Default true.
-          required: false
-          type: string
-        - name: email
-          in: query
-          description: >-
-            If you are regular users of our services, we encourage you to
-            provide us an email, so that we can better track the usage or follow
-            up with you.
-          required: false
-          type: string
-      tags:
-        - gene
   '/gene/{geneid}':
     get:
-      operationId: getAnnotation
-      responses:
-        '200':
-          schema:
-            properties:
-              pdb:
-                items:
-                  type: string
-                type: array
-              ec:
-                type: string
-              symbol:
-                type: string
-              ensembl:
-                properties:
-                  gene:
-                    type: string
-                  transcript:
-                    items:
-                      type: string
-                    type: array
-                type: object
-              summary:
-                type: string
-              homologene:
-                properties:
-                  genes:
-                    items:
-                      type: integer
-                    type: array
-                  id:
-                    type: integer
-                type: object
-              accession:
-                properties:
-                  genomic:
-                    items:
-                      type: string
-                    type: array
-                  rna:
-                    items:
-                      type: string
-                    type: array
-                  protein:
-                    items:
-                      type: string
-                    type: array
-                type: object
-              prosite:
-                type: string
-              refseq:
-                properties:
-                  genomic:
-                    items:
-                      type: string
-                    type: array
-                  rna:
-                    items:
-                      type: string
-                    type: array
-                  protein:
-                    items:
-                      type: string
-                    type: array
-                type: object
-              pir:
-                type: string
-              type_of_gene:
-                type: string
-              alias:
-                items:
-                  type: string
-                type: array
-              HGNC:
-                type: integer
-              Vega:
-                type: string
-              map_location:
-                type: string
-              reporter:
-                properties:
-                  HTA-2_0:
-                    type: string
-                  HG-U133_Plus_2:
-                    items:
-                      type: string
-                    type: array
-                  HG-U95Av2:
-                    items:
-                      type: string
-                    type: array
-                  HuEx-1_0:
-                    type: integer
-                  HuGene-1_1:
-                    type: integer
-                  HuGene-2_1:
-                    type: integer
-                type: object
-              pfam:
-                type: string
-              genomic_pos_hg19:
-                properties:
-                  chr:
-                    type: integer
-                  end:
-                    type: integer
-                  start:
-                    type: integer
-                  strand:
-                    type: integer
-                type: object
-              taxid:
-                type: integer
-              reagent:
-                properties:
-                  GNF_hs-ORFeome1_1_reads:
-                    properties:
-                      relationonship:
-                        type: string
-                      id:
-                        type: string
-                    type: object
-                  GNF_hs-druggable_plasmid-shRNA:
-                    items:
-                      properties:
-                        relationonship:
-                          type: string
-                        id:
-                          type: string
-                      type: object
-                    type: array
-                  GNF_hs_LentiORF-Jred:
-                    properties:
-                      relationonship:
-                        type: string
-                      id:
-                        type: string
-                    type: object
-                  GNF_hs_LentiORF-HA-MYC:
-                    properties:
-                      relationship:
-                        type: string
-                      id:
-                        type: string
-                    type: object
-                  GNF_Qia_hs-genome_v1_siRNA:
-                    items:
-                      properties:
-                        relationonship:
-                          type: string
-                        id:
-                          type: string
-                      type: object
-                    type: array
-                  GNF_hs-Origene:
-                    items:
-                      properties:
-                        relationonship:
-                          type: string
-                        id:
-                          type: string
-                      type: object
-                    type: array
-                  NIBRI_hs-Secretome_pDEST:
-                    properties:
-                      relationship:
-                        type: string
-                      id:
-                        type: string
-                    type: object
-                  Invitrogen_IVTHSSIPKv2:
-                    items:
-                      properties:
-                        relationonship:
-                          type: string
-                        id:
-                          type: string
-                      type: object
-                    type: array
-                  GNF_mm+hs-MGC:
-                    properties:
-                      relationonship:
-                        type: string
-                      id:
-                        type: string
-                    type: object
-                  NOVART_hs-genome_siRNA:
-                    items:
-                      properties:
-                        relationonship:
-                          type: string
-                        id:
-                          type: string
-                      type: object
-                    type: array
-                  GNF_hs-druggable_lenti-shRNA:
-                    items:
-                      properties:
-                        relationonship:
-                          type: string
-                        id:
-                          type: string
-                      type: object
-                    type: array
-                  GNF_hs-pkinase_IDT-siRNA:
-                    items:
-                      properties:
-                        relationonship:
-                          type: string
-                        id:
-                          type: string
-                      type: object
-                    type: array
-                  GNF_hs-druggable_siRNA:
-                    items:
-                      properties:
-                        relationonship:
-                          type: string
-                        id:
-                          type: string
-                      type: object
-                    type: array
-                type: object
-              pharmgkb:
-                type: string
-              wikipedia:
-                properties:
-                  url_stub:
-                    type: string
-                type: object
-              exons:
-                type: object
-              uniprot:
-                properties:
-                  TrEMBL:
-                    items:
-                      type: string
-                    type: array
-                  Swiss-Prot:
-                    type: string
-                type: object
-              _id:
-                type: string
-              pathway:
-                properties:
-                  netpath:
-                    items:
-                      properties:
-                        id:
-                          type: string
-                        name:
-                          type: string
-                      type: object
-                    type: array
-                  kegg:
-                    items:
-                      properties:
-                        id:
-                          type: string
-                        name:
-                          type: string
-                      type: object
-                    type: array
-                  biocarta:
-                    items:
-                      properties:
-                        id:
-                          type: string
-                        name:
-                          type: string
-                      type: object
-                    type: array
-                  wikipathways:
-                    items:
-                      properties:
-                        id:
-                          type: string
-                        name:
-                          type: string
-                      type: object
-                    type: array
-                  pid:
-                    items:
-                      properties:
-                        id:
-                          type: string
-                        name:
-                          type: string
-                      type: object
-                    type: array
-                  reactome:
-                    items:
-                      properties:
-                        id:
-                          type: string
-                        name:
-                          type: string
-                      type: object
-                    type: array
-                type: object
-              MIM:
-                type: integer
-              go:
-                properties:
-                  BP:
-                    items:
-                      properties:
-                        term:
-                          type: string
-                        id:
-                          type: string
-                        evidence:
-                          type: string
-                      type: object
-                    type: array
-                  MF:
-                    items:
-                      properties:
-                        term:
-                          type: string
-                        id:
-                          type: string
-                        evidence:
-                          type: string
-                      type: object
-                    type: array
-                  CC:
-                    items:
-                      properties:
-                        term:
-                          type: string
-                        id:
-                          type: string
-                        evidence:
-                          type: string
-                      type: object
-                    type: array
-                type: object
-              HPRD:
-                type: integer
-              ipi:
-                items:
-                  type: string
-                type: array
-              interpro:
-                items:
-                  properties:
-                    short_desc:
-                      type: string
-                    id:
-                      type: string
-                    description:
-                      type: string
-                  type: object
-                type: array
-              unigene:
-                items:
-                  type: string
-                type: array
-              genomic_pos:
-                properties:
-                  chr:
-                    type: integer
-                  end:
-                    type: integer
-                  start:
-                    type: integer
-                  strand:
-                    type: integer
-                type: object
-              entrezgene:
-                type: string
-              generif:
-                items:
-                  properties:
-                    text:
-                      type: string
-                    pubmed:
-                      type: string
-                  type: object
-                type: array
-              name:
-                type: string
-            type: object
-          description: Successful response
       description: |
         Retrieve gene annotation based on Entrez or Ensembl gene id, support
         JSONP and CORS as well.
+      tags:
+        - gene
       parameters:
         - name: geneid
           in: path
@@ -499,6 +142,10 @@ paths:
             245794
           required: true
           type: string
+          parameterType: InputParameter
+          parameterValueType:
+            - 'http://identifiers.org/ncbigene'
+            - 'http://identifiers.org/ensembl'
         - name: fields
           in: query
           description: >-
@@ -538,142 +185,485 @@ paths:
             up with you.
           required: false
           type: string
-      tags:
-        - gene
-  /metadata:
-    get:
-      operationId: getMetadata
+      operationId: getAnnotation
       responses:
         '200':
+          responseDataType:
+            - elementPath: ec
+              datatype: 'http://identifiers.org/ec-code/'
+            - elementPath: ensembl.gene
+              datatype: 'http://identifiers.org/ensembl/'
+            - elementPath: ensembl.translation.protein
+              datatype: 'http://identifiers.org/ensembl/'
+            - elementPath: ensembl.translation.rna
+              datatype: 'http://identifiers.org/ensembl/'
+            - elementPath: entrezgene
+              datatype: 'http://identifiers.org/ncbigene/'
+            - elementPath: generif.pubmed
+              datatype: 'http://identifiers.org/pubmed/'
+            - elementPath: go.bp.evidence
+              datatype: 'http://identifiers.org/eco/'
+            - elementPath: go.bp.id
+              datatype: 'http://identifiers.org/go/'
+            - elementPath: go.bp.pubmed
+              datatype: 'http://identifiers.org/pubmed/'
+            - elementPath: go.bp.term
+              datatype: 'http://identifiers.org/go/'
+            - elementPath: go.cc.evidence
+              datatype: 'http://identifiers.org/eco/'
+            - elementPath: go.cc.id
+              datatype: 'http://identifiers.org/go/'
+            - elementPath: go.cc.pubmed
+              datatype: 'http://identifiers.org/pubmed/'
+            - elementPath: go.cc.term
+              datatype: 'http://identifiers.org/go/'
+            - elementPath: go.mf.evidence
+              datatype: 'http://identifiers.org/eco/'
+            - elementPath: go.mf.id
+              datatype: 'http://identifiers.org/go/'
+            - elementPath: go.mf.pubmed
+              datatype: 'http://identifiers.org/pubmed/'
+            - elementPath: go.mf.qualifier
+              datatype: 'http://identifiers.org/go/'
+            - elementPath: go.mf.term
+              datatype: 'http://identifiers.org/go/'
+            - elementPath: hgnc
+              datatype: 'http://identifiers.org/hgnc/'
+            - elementPath: homologene.id
+              datatype: 'http://identifiers.org/homologene/'
+            - elementPath: interpro.desc
+              datatype: 'http://identifiers.org/interpro/'
+            - elementPath: interpro.id
+              datatype: 'http://identifiers.org/interpro/'
+            - elementPath: interpro.short_desc
+              datatype: 'http://identifiers.org/interpro/'
+            - elementPath: mim
+              datatype: 'http://identifiers.org/omim/'
+            - elementPath: pathway.biocarta.id
+              datatype: 'http://identifiers.org/biocarta.pathway/'
+            - elementPath: pathway.biocarta.name
+              datatype: 'http://identifiers.org/biocarta.pathway/'
+            - elementPath: pathway.kegg.id
+              datatype: 'http://identifiers.org/kegg.pathway/'
+            - elementPath: pathway.kegg.name
+              datatype: 'http://identifiers.org/kegg.pathway/'
+            - elementPath: pathway.pid.id
+              datatype: 'http://identifiers.org/pid.pathway/'
+            - elementPath: pathway.pid.name
+              datatype: 'http://identifiers.org/pid.pathway/'
+            - elementPath: pathway.reactome.id
+              datatype: 'http://identifiers.org/reactome/'
+            - elementPath: pathway.reactome.name
+              datatype: 'http://identifiers.org/reactome/'
+            - elementPath: pathway.wikipathways.id
+              datatype: 'http://identifiers.org/wikipathways/'
+            - elementPath: pathway.wikipathways.name
+              datatype: 'http://identifiers.org/wikipathways/'
+            - elementPath: pfam
+              datatype: 'http://identifiers.org/pfam/'
+            - elementPath: pharmgkb
+              datatype: 'http://identifiers.org/pharmgkb.pathways/'
+            - elementPath: prosite
+              datatype: 'http://identifiers.org/prosite/'
+            - elementPath: refseq.translation.protein
+              datatype: 'http://identifiers.org/refseq/'
+            - elementPath: refseq.translation.rna
+              datatype: 'http://identifiers.org/refseq/'
+            - elementPath: taxid
+              datatype: 'http://identifiers.org/taxonomy/'
+            - elementPath: uniprot.swiss-prot
+              datatype: 'http://identifiers.org/uniprot/'
+            - elementPath: wikipedia.url_stub
+              datatype: 'http://identifiers.org/wikipedia.en/'
           schema:
-            properties:
-              source:
-                type: string
-              stats:
-                properties:
-                  total_ensembl_genes_mapped_to_entrez:
-                    type: integer
-                  total_species:
-                    type: integer
-                  total_ensembl_only_genes:
-                    type: integer
-                  total_entrez_genes:
-                    type: integer
-                  total_genes:
-                    type: integer
-                  total_ensembl_genes:
-                    type: integer
-                type: object
-              src_version:
-                properties:
-                  uniprot:
-                    type: integer
-                  pharmgkb:
-                    type: integer
-                  entrez:
-                    type: integer
-                  netaffy:
-                    type: string
-                  ensembl:
-                    type: integer
-                  ucsc:
-                    type: integer
-                  refseq:
-                    type: integer
-                  cpdb:
-                    type: integer
-                type: object
-              app_revision:
-                type: string
-              timestamp:
-                type: string
-              taxonomy:
-                properties:
-                  zebrafish:
-                    type: integer
-                  human:
-                    type: integer
-                  fruitfly:
-                    type: integer
-                  frog:
-                    type: integer
-                  thale-cress":
-                    type: integer
-                  mouse:
-                    type: integer
-                  rat:
-                    type: integer
-                  nematode:
-                    type: integer
-                  pig:
-                    type: integer
-                type: object
-              available_fields:
-                type: string
-              genome_assembly:
-                properties:
-                  zebrafish:
-                    type: string
-                  human:
-                    type: string
-                  fruitfly:
-                    type: string
-                  frog:
-                    type: string
-                  mouse:
-                    type: string
-                  rat:
-                    type: string
-                  nematode:
-                    type: string
-                  pig:
-                    type: string
-                type: object
             type: object
+            properties:
+              _id:
+                type: string
+              reagent:
+                type: object
+                properties:
+                  GNF_hs-druggable_lenti-shRNA:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        relationonship:
+                          type: string
+                  GNF_mm+hs-MGC:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      relationonship:
+                        type: string
+                  GNF_hs_LentiORF-HA-MYC:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      relationship:
+                        type: string
+                  NIBRI_hs-Secretome_pDEST:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      relationship:
+                        type: string
+                  GNF_Qia_hs-genome_v1_siRNA:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        relationonship:
+                          type: string
+                  NOVART_hs-genome_siRNA:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        relationonship:
+                          type: string
+                  GNF_hs_LentiORF-Jred:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      relationonship:
+                        type: string
+                  GNF_hs-druggable_plasmid-shRNA:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        relationonship:
+                          type: string
+                  GNF_hs-pkinase_IDT-siRNA:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        relationonship:
+                          type: string
+                  GNF_hs-Origene:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        relationonship:
+                          type: string
+                  GNF_hs-ORFeome1_1_reads:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      relationonship:
+                        type: string
+                  Invitrogen_IVTHSSIPKv2:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        relationonship:
+                          type: string
+                  GNF_hs-druggable_siRNA:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        relationonship:
+                          type: string
+              ipi:
+                type: array
+                items:
+                  type: string
+              MIM:
+                type: integer
+              pathway:
+                type: object
+                properties:
+                  netpath:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        name:
+                          type: string
+                  kegg:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        name:
+                          type: string
+                  wikipathways:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        name:
+                          type: string
+                  pid:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        name:
+                          type: string
+                  reactome:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        name:
+                          type: string
+                  biocarta:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        name:
+                          type: string
+              wikipedia:
+                type: object
+                properties:
+                  url_stub:
+                    type: string
+              homologene:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  genes:
+                    type: array
+                    items:
+                      type: integer
+              prosite:
+                type: string
+              name:
+                type: string
+              pfam:
+                type: string
+              genomic_pos_hg19:
+                type: object
+                properties:
+                  chr:
+                    type: integer
+                  start:
+                    type: integer
+                  strand:
+                    type: integer
+                  end:
+                    type: integer
+              pdb:
+                type: array
+                items:
+                  type: string
+              ec:
+                type: string
+              symbol:
+                type: string
+              uniprot:
+                type: object
+                properties:
+                  Swiss-Prot:
+                    type: string
+                  TrEMBL:
+                    type: array
+                    items:
+                      type: string
+              ensembl:
+                type: object
+                properties:
+                  transcript:
+                    type: array
+                    items:
+                      type: string
+                  gene:
+                    type: string
+              accession:
+                type: object
+                properties:
+                  protein:
+                    type: array
+                    items:
+                      type: string
+                  rna:
+                    type: array
+                    items:
+                      type: string
+                  genomic:
+                    type: array
+                    items:
+                      type: string
+              summary:
+                type: string
+              generif:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    text:
+                      type: string
+                    pubmed:
+                      type: string
+              entrezgene:
+                type: string
+              taxid:
+                type: integer
+              alias:
+                type: array
+                items:
+                  type: string
+              genomic_pos:
+                type: object
+                properties:
+                  chr:
+                    type: integer
+                  start:
+                    type: integer
+                  strand:
+                    type: integer
+                  end:
+                    type: integer
+              Vega:
+                type: string
+              exons:
+                type: object
+              type_of_gene:
+                type: string
+              refseq:
+                type: object
+                properties:
+                  protein:
+                    type: array
+                    items:
+                      type: string
+                  rna:
+                    type: array
+                    items:
+                      type: string
+                  genomic:
+                    type: array
+                    items:
+                      type: string
+              pharmgkb:
+                type: string
+              pir:
+                type: string
+              HGNC:
+                type: integer
+              unigene:
+                type: array
+                items:
+                  type: string
+              reporter:
+                type: object
+                properties:
+                  HuGene-1_1:
+                    type: integer
+                  HG-U95Av2:
+                    type: array
+                    items:
+                      type: string
+                  HuGene-2_1:
+                    type: integer
+                  HTA-2_0:
+                    type: string
+                  HG-U133_Plus_2:
+                    type: array
+                    items:
+                      type: string
+                  HuEx-1_0:
+                    type: integer
+              interpro:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    description:
+                      type: string
+                    short_desc:
+                      type: string
+              map_location:
+                type: string
+              go:
+                type: object
+                properties:
+                  MF:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        term:
+                          type: string
+                        evidence:
+                          type: string
+                  CC:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        term:
+                          type: string
+                        evidence:
+                          type: string
+                  BP:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        term:
+                          type: string
+                        evidence:
+                          type: string
+              HPRD:
+                type: integer
           description: Successful response
-      description: |
-        Get metadata about the data available from MyGene.info
-      parameters:
-        - name: callback
-          in: query
-          description: you can pass a "callback" parameter to make a JSONP call.
-          required: false
-          type: string
-      tags:
-        - metadata
   /query:
     get:
-      operationId: queryGene
-      responses:
-        '200':
-          schema:
-            properties:
-              hits:
-                items:
-                  properties:
-                    taxid:
-                      type: integer
-                    _id:
-                      type: integer
-                    symbol:
-                      type: string
-                    entrezgene:
-                      type: integer
-                    name:
-                      type: string
-                  type: object
-                type: array
-              took:
-                type: integer
-              total:
-                type: integer
-              max_score:
-                type: integer
-            type: object
-          description: Successful response
       description: >-
         Make gene query and return matching gene list. Support JSONP and CORS as
         well.
+      tags:
+        - query
       parameters:
         - name: q
           in: query
@@ -683,6 +673,25 @@ paths:
             http://docs.mygene.info/en/latest/doc/query_service.html
           required: true
           type: string
+          parameterType: InputParameter
+          parameterValueType:
+            - 'http://identifiers.org/hgnc.symbol'
+            - 'http://identifiers.org/refseq'
+            - 'http://identifiers.org/unigene'
+            - 'http://identifiers.org/uniprot'
+            - 'http://identifiers.org/pdb'
+            - 'http://identifiers.org/prosite'
+            - 'http://identifiers.org/pfam'
+            - 'http://identifiers.org/interpro'
+            - 'http://identifiers.org/hgnc'
+            - 'http://identifiers.org/mgi'
+            - 'http://identifiers.org/rgd'
+            - 'http://identifiers.org/flybase'
+            - 'http://identifiers.org/wormbase'
+            - 'http://identifiers.org/zfin'
+            - 'http://identifiers.org/tair.gene'
+            - 'http://identifiers.org/xenbase'
+            - 'http://identifiers.org/mirbase'
         - name: fields
           in: query
           description: >-
@@ -791,5 +800,106 @@ paths:
             provide us an email, so that we can better track the usage or follow
             up with you.
           type: string
+      operationId: queryGene
+      responses:
+        '200':
+          schema:
+            type: object
+            properties:
+              hits:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    entrezgene:
+                      type: integer
+                    taxid:
+                      type: integer
+                    symbol:
+                      type: string
+                    _id:
+                      type: integer
+              max_score:
+                type: integer
+              took:
+                type: integer
+              total:
+                type: integer
+          description: Successful response
+  /gene:
+    post:
+      description: |
+        Make gene queries in batch for a list of Entrez or Ensembl gene ids.
       tags:
-        - query
+        - gene
+      parameters:
+        - name: ids
+          in: query
+          description: >-
+            multiple geneids seperated by comma, e.g., "ids=1017,1018" or
+            "ids=695,ENSG00000123374". Note that currently we only take the
+            input ids up to 1000 maximum, the rest will be omitted.
+          required: true
+          type: string
+        - name: fields
+          in: query
+          description: >-
+            a comma-separated fields to limit the fields returned from the
+            matching gene hits. The supported field names can be found from any
+            gene object (e.g. http://mygene.info/v2/gene/1017). Note that it
+            supports dot notation as well, e.g., you can pass "refseq.rna". If
+            "fields=all", all available fields will be returned. Default
+            "symbol,name,taxid,entrezgene,ensemblgene".
+          required: false
+          type: string
+        - name: species
+          in: query
+          description: >-
+            Optional, can be used to limit the gene hits from given species. You
+            can use "common names" for nine common species (human, mouse, rat,
+            fruitfly, nematode, zebrafish, thale-cress, frog and pig). All other
+            species, you can provide their taxonomy ids. Multiple species can be
+            passed using comma as a separator. Default all.
+          required: false
+          type: string
+        - name: dotfield
+          in: query
+          description: >-
+            control the format of the returned fields when passed "fields"
+            parameter contains dot notation, e.g. "fields=refseq.rna". If "true"
+            or "1", the returned data object contains a single "refseq.rna"
+            field, otherwise ("false" or "0"), a single "refseq" field with a
+            sub-field of "rna". Default true.
+          required: false
+          type: string
+        - name: email
+          in: query
+          description: >-
+            If you are regular users of our services, we encourage you to
+            provide us an email, so that we can better track the usage or follow
+            up with you.
+          required: false
+          type: string
+      operationId: getGenes
+      responses:
+        '200':
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                name:
+                  type: string
+                taxid:
+                  type: integer
+                entrezgene:
+                  type: integer
+                query:
+                  type: string
+                symbol:
+                  type: string
+                _id:
+                  type: string
+          description: Successful response
