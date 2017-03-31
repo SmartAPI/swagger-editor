@@ -1,51 +1,46 @@
-# Swagger Editor
+# smartAPI Editor: A tool for semantic annotation of Web APIs
+# an extension to [Swagger Editor] (https://github.com/swagger-api/swagger-editor/releases)
 
-[![Build Status](https://travis-ci.org/swagger-api/swagger-editor.svg?branch=master)](https://travis-ci.org/swagger-api/swagger-editor)
-[![Code Climate](https://codeclimate.com/github/swagger-api/swagger-editor/badges/gpa.svg)](https://codeclimate.com/github/swagger-api/swagger-editor)
-[![Dependency Status](https://david-dm.org/swagger-api/swagger-editor/status.svg)](https://david-dm.org/swagger-api/swagger-editor)
-[![devDependency Status](https://david-dm.org/swagger-api/swagger-editor/dev-status.svg)](https://david-dm.org/swagger-api/swagger-editor-#info=devDependencies)
 
-Swagger Editor lets you edit [Swagger API specifications](https://github.com/swagger-api/swagger-spec/blob/master/versions/2.0.md) in YAML inside your browser and to preview documentations in real time.
-Valid Swagger JSON descriptions can then be generated and used with the full Swagger tooling (code generation, documentation, etc).
+smartAPI Editor is an an extension to [Swagger Editor] (https://github.com/swagger-api/swagger-editor/releases). Swagger Editor lets you edit your API document in in YAML inside your browser and to preview documentations in real time. 
 
-**[LIVE DEMO](http://editor.swagger.io)**
+smartAPI editor:
+ validates your API document against [smartAPI specifications](https://github.com/WebsmartAPI/swagger-editor/blob/master/node_modules_changes/schema.json), an extended version of openAPI specification. 
 
-[![Screenshot of the Swagger Editor](docs/screenshot.png "Designing an API with the Swagger Editor")](http://editor.swagger.io)
+**[LIVE DEMO](https://www.youtube.com/watch?v=EQpUEiOu1ng&t=2s)**
 
-#### Running with Docker
+[![Screenshot of the smartAPI Editor](docs/screenshot.png "Annotating your Web API with smartAPI Editor")]()
 
-The swagger-editor is published in a [public repository on Dockerhub](https://hub.docker.com/r/swaggerapi/swagger-editor/)
-
-You can run editor easily with docker:
-
-```bash
-docker pull swaggerapi/swagger-editor
-docker run -p 80:8080 swaggerapi/swagger-editor
-```
 
 #### Running Locally
 
-[**Download the latest release (v2.10.3)**](https://github.com/swagger-api/swagger-editor/releases/download/v2.10.3/swagger-editor.zip) and serve the static files via your HTTP server. If you don't have an HTTP server, you can use [`http-server`](https://www.npmjs.com/package/http-server) Node.js module.
+[**Download the code**](https://github.com/WebsmartAPI/swagger-editor/archive/master.zip) and serve the static files via your HTTP server. If you don't have an HTTP server, you can use [`http-server`](https://www.npmjs.com/package/http-server) Node.js module.
 
-###### Using `http-server` module:
-```shell
-npm install -g http-server
-wget https://github.com/swagger-api/swagger-editor/releases/download/v2.10.3/swagger-editor.zip
-unzip swagger-editor.zip
-http-server swagger-editor
-```
 
 #### Building From Source
 
 Make sure you have [Node.js](http://nodejs.org/) installed. 
+Running the editor:
 
 ```shell
-git clone https://github.com/swagger-api/swagger-editor.git
+git clone https://github.com/WebsmartAPI/swagger-editor.git
 cd swagger-editor
 npm install
+chmod 755 scripts/nmchange.sh
+./scripts/nmchange.sh
 npm start
 ```
+Running elasticsearch
+```shell
+./elasticsearch
+```
 
+Running the Identifiers API ( an elasticsearch-based tornado app providing the identifiers from identifiers.org indexed using their names,synonyms, description, and URL)
+```shell
+cd identifiers
+make index
+make backend
+```
 #### Documentations
 * [Importing your Swagger document](./docs/import.md)
 * [Development Guide](./docs/development.md)
