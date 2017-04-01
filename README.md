@@ -12,17 +12,12 @@ smartAPI editor:
  * Enhances auto-suggestion functionality for metadata *values* by suggesting a list of values used by other APIs along with and sorted by their usage frequency.
  
  * Enables semantic annotation of *parameters* and *responses* of the API:
-    * auto-suggests values for *parameters.parameterValueType* from identifiers.org along with their usage frequency by other APIs. 
+    * auto-suggests values for *parameters.parameterValueType* from [identifiers.org](http://identifiers.org/) along with their usage frequency by other APIs. 
     * Integrates the editor with [smartAPI profiler](http://smart-api.info/profiler) which automatically annotates the *responses.responseDataType* of the API. 
 
 **[LIVE DEMO](https://www.youtube.com/watch?v=EQpUEiOu1ng&t=2s)**
 
 [![Screenshot of the smartAPI Editor](docs/screenshot.png "Annotating your Web API with smartAPI Editor")]()
-
-
-#### Running Locally
-
-[**Download the code**](https://github.com/WebsmartAPI/swagger-editor/archive/master.zip) and serve the static files via your HTTP server. If you don't have an HTTP server, you can use [`http-server`](https://www.npmjs.com/package/http-server) Node.js module.
 
 
 #### Building From Source
