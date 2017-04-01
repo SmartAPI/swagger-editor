@@ -20,8 +20,6 @@ smartAPI editor:
     * Integrates the editor with [smartAPI profiler](http://smart-api.info/profiler) which automatically annotates the *responses.responseDataType* of the API. 
 
 
-
-
 #### Building From Source
 
 Make sure you have [Node.js](http://nodejs.org/) installed. 
@@ -48,6 +46,10 @@ make index
 make backend
 ```
 #### Documentations
+* [smartAPI Developer Guide](./docs/smartAPIdeveloper.md)
+* [smartAPI User Guide](./docs/smartAPIuser.md)
+
+#### Other Swagger Documentations
 * [Importing your Swagger document](./docs/import.md)
 * [Development Guide](./docs/development.md)
 * [Configuration Guide](./docs/config.md)
