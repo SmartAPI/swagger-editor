@@ -2,6 +2,10 @@
 
 smartAPI Editor is an an extension to [Swagger Editor](https://github.com/swagger-api/swagger-editor/releases). Swagger Editor lets you edit your API document in in YAML inside your browser and to preview documentations in real time. 
 
+**[LIVE DEMO](https://www.youtube.com/watch?v=EQpUEiOu1ng&t=2s)**
+
+[![Screenshot of the smartAPI Editor](docs/screenshot.png "Annotating your Web API with smartAPI Editor")]()
+
 smartAPI editor:
  * validates your API document against [smartAPI specifications](https://github.com/WebsmartAPI/swagger-editor/blob/master/node_modules_changes/schema.json), an extended version of openAPI specification.
  
@@ -15,9 +19,7 @@ smartAPI editor:
     * auto-suggests values for *parameters.parameterValueType* from [identifiers.org](http://identifiers.org/) along with their usage frequency by other APIs. 
     * Integrates the editor with [smartAPI profiler](http://smart-api.info/profiler) which automatically annotates the *responses.responseDataType* of the API. 
 
-**[LIVE DEMO](https://www.youtube.com/watch?v=EQpUEiOu1ng&t=2s)**
 
-[![Screenshot of the smartAPI Editor](docs/screenshot.png "Annotating your Web API with smartAPI Editor")]()
 
 
 #### Building From Source
