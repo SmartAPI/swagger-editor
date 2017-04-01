@@ -1,8 +1,8 @@
 # smartAPI Editor: A tool for semantic annotation of Web APIs
-# an extension to [Swagger Editor] (https://github.com/swagger-api/swagger-editor/releases)
+# an extension to [Swagger Editor](https://github.com/swagger-api/swagger-editor/releases)
 
 
-smartAPI Editor is an an extension to [Swagger Editor] (https://github.com/swagger-api/swagger-editor/releases). Swagger Editor lets you edit your API document in in YAML inside your browser and to preview documentations in real time. 
+smartAPI Editor is an an extension to [Swagger Editor](https://github.com/swagger-api/swagger-editor/releases). Swagger Editor lets you edit your API document in in YAML inside your browser and to preview documentations in real time. 
 
 smartAPI editor:
  validates your API document against [smartAPI specifications](https://github.com/WebsmartAPI/swagger-editor/blob/master/node_modules_changes/schema.json), an extended version of openAPI specification. 
