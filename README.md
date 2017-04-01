@@ -33,7 +33,8 @@ chmod 755 scripts/nmchange.sh
 ./scripts/nmchange.sh
 npm start
 ```
-Running elasticsearch
+Make sure you have [elasticsearch](https://www.elastic.co/guide/en/elasticsearch/reference/current/_installation.html) installed. 
+Running elasticsearch:
 ```shell
 ./elasticsearch
 ```
