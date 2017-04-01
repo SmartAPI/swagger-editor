@@ -9,7 +9,7 @@ smartAPI Editor is an an extension to [Swagger Editor](https://github.com/swagge
 smartAPI editor:
  * validates your API document against [smartAPI specifications](https://github.com/WebsmartAPI/swagger-editor/blob/master/node_modules_changes/schema.json), an extended version of openAPI specification.
  
- * Lets you Save your API document into [smartAPI registry](http://smart-api.info/registry/)
+ * Lets you Save your API document into [smartAPI registry](http://smart-api.info/registry/).
  
  * Enhances auto-suggestion functionality for metadata *elements* by providing the element's conformance level (Required, Recommended, Optional).
  
