@@ -7,12 +7,13 @@ smartAPI editor:
  
  * Lets you Save your API document into [smartAPI registry](http://smart-api.info/registry/)
  
- * Enhances the auto-suggestion functionality for metadata *elements* by providing the element's conformance level (Required, Recommende, Optional).
+ * Enhances auto-suggestion functionality for metadata *elements* by providing the element's conformance level (Required, Recommended, Optional).
  
- * Enhances the auto-suggestion functionality for metadata *values* by suggesting a list of values used by other APIs along with and sorted by their usage frequency.
+ * Enhances auto-suggestion functionality for metadata *values* by suggesting a list of values used by other APIs along with and sorted by their usage frequency.
  
  * Enables semantic annotation of *parameters* and *responses* of the API:
-    * auto-suggests *parameters.parameterValueType* 
+    * auto-suggests values for *parameters.parameterValueType* from identifiers.org along with their usage frequency by other APIs. 
+    * Integrates the editor with [smartAPI profiler](http://smart-api.info/profiler) which automatically annotates the *responses.responseDataType* of the API. 
 
 **[LIVE DEMO](https://www.youtube.com/watch?v=EQpUEiOu1ng&t=2s)**
 
