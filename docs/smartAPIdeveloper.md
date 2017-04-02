@@ -4,7 +4,7 @@ smartAPI editor is an extentetion to Swagger editor. This guideline helps the de
 
 
 ### smartAPI specification
-The JSON schema, the editor uses to validate the API document:
+  The JSON schema, the editor uses to validate the API document:
 ```shell
 node_modules/swagger-schema-official/schema.json
 ```
@@ -15,12 +15,12 @@ scripts/services/autocomplete.js
 node_modules/brace/ext/language_tools.js
 ```
 ### Right-hand preview panel
-HTML templates 
+  HTML templates 
 ```shell
 templates/
 ```
 ### smartAPI Recommendation
-collapsable div on top of preview panel
+  Collapsable div on top of preview panel
 ```shell
 templates/recom-presenter.html
 scripts/services/controllers/recompresenter.js
@@ -31,7 +31,7 @@ templates/preferences.html
 scripts/services/controllers/preferences.js
 ```
 ### Save functionality
-Look for *saveAPIdoc* function 
+  Look for *saveAPIdoc* function 
 ```shell
 views/header/header.html
 scripts/services/controllers/header.js
