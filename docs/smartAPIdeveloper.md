@@ -1,6 +1,6 @@
 # smartAPI editor: Developer Guide
 
-smartAPI editor is an extentetion to Swagger editor. This guideline helps the developers find the right place in the code to modify: 
+smartAPI editor is an extentetion to Swagger editor. This guideline helps the developers find the right place in the code to modify. 
  :exclamation: Make sure you are in swagger-editor directory.
 
 ### smartAPI specification
