@@ -26,7 +26,7 @@ templates/recom-presenter.html
 scripts/services/controllers/recompresenter.js
 ```
 ### Auto-suggestion service URL and other Preferences tab settings
-  Look for *suggestionServiceBasePath*
+  For Auto-suggestion service URL, look for *suggestionServiceBasePath*
 ```shell
 templates/preferences.html
 scripts/services/controllers/preferences.js
