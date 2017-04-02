@@ -19,4 +19,9 @@ HTML templates
 ```shell
 templates/
 ```
-
+### smartAPI Recommendation
+collapsable div on top of preview panel
+```shell
+templates/recom-presenter.html
+scripts/services/controllers/recompresenter.js
+```
