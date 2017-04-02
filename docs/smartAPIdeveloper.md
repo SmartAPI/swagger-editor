@@ -30,3 +30,9 @@ scripts/services/controllers/recompresenter.js
 templates/preferences.html
 scripts/services/controllers/preferences.js
 ```
+### Save functionality
+Look for *saveAPIdoc* function 
+```shell
+views/header/header.html
+scripts/services/controllers/header.js
+```
