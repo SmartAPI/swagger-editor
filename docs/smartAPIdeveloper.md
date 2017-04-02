@@ -26,9 +26,11 @@ templates/recom-presenter.html
 scripts/services/controllers/recompresenter.js
 ```
 ### Auto-suggestion service URL and other Preferences tab settings
+  Look for *suggestionServiceBasePath*
 ```shell
 templates/preferences.html
 scripts/services/controllers/preferences.js
+configs/defaults.js
 ```
 ### Save functionality
   Look for *saveAPIdoc* function 
