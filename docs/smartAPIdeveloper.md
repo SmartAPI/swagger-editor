@@ -36,3 +36,9 @@ scripts/services/controllers/preferences.js
 views/header/header.html
 scripts/services/controllers/header.js
 ```
+### New File, Default API document and other Example YAML documents
+```shell
+spec-files/guide.yaml
+spec-files/default.yaml
+spec-files/xxx.yaml
+```
