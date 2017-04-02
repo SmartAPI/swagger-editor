@@ -31,6 +31,7 @@ scripts/controllers/
 ```shell
 templates/recom-presenter.html
 scripts/controllers/recompresenter.js
+styles/components/error-presenter.less
 ```
 ### Auto-suggestion service URL and other Preferences tab settings
   For Auto-suggestion service URL, look for *suggestionServiceBasePath*
