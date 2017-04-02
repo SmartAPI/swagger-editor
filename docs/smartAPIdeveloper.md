@@ -1,7 +1,8 @@
 # smartAPI editor: Developer Guide
 
 smartAPI editor is an extentetion to Swagger editor. This guideline helps the developers find the right place in the code to modify. 
- :exclamation: Make sure you are in swagger-editor directory; and have run *npm install*.
+
+:exclamation: Make sure you are in swagger-editor directory; and have run *npm install*.
 
 ### smartAPI specification
   The JSON schema, the editor uses to validate the API document:
