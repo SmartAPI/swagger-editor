@@ -1,4 +1,4 @@
-# smartAPI Editor Developer Guide
+# smartAPI editor: Developer Guide
 
 smartAPI editor is an extentetion to Swagger editor. This guideline helps the developers find the right place in the code to modify: 
 
@@ -24,4 +24,9 @@ collapsable div on top of preview panel
 ```shell
 templates/recom-presenter.html
 scripts/services/controllers/recompresenter.js
+```
+### Auto-suggestion service URL and other Preferences tab settings
+```shell
+templates/preferences.html
+scripts/services/controllers/preferences.js
 ```
