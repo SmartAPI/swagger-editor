@@ -1,98 +1,49 @@
-# Development Guide
+## Welcome to the swagger-editor wiki!
+Want to create a swagger document for your API for the first time? Go to the [editor](http://smart-api.info/editor/) and Follow these steps and/or watch Our [live demo](https://www.youtube.com/watch?v=EQpUEiOu1ng&t=31s)!
 
-### Installing dependencies
-This app have npm dependencies. To install all dependencies, run
-```shell
-npm install;
-```
+Once you are done, Please take a quick [survey](https://github.com/WebsmartAPI/swagger-editor/wiki/Saving-and-Retrieving--API-documents)! 
 
-### Specifying the port
+### Some notes before you start:
 
-You can set the environment variable `PORT` to set the port
+a) The Swagger API document is in **YAML** notation, which is sensitive to indentation. So, it is important where your cursor is currently at, and where you insert the meta-data fields and values. Please follow our guidelines and you will be fine! 
 
-```shell
-PORT=81 npm start
-```
+b) The auto-suggestion functionality is available for both the meta-data fields and values. To get the list of suggestions available for the position you're cursor is currently at, either press _**Ctrl-Space**_ (to get all the suggestions) or **start typing** (to get the matched suggestions). 
 
-### Disallowing the browser to open
+### You are ready to start: 
 
-Set `DO_NOT_OPEN` environment variable to start the server without
-opening the browser
+1)  Open **File** menu and choose **New**. This is a guide to get you started quickly and generate your API metadata.
+Don't worry about the errors on the right panel. As we add the meta-data the errors will be resolved. 
 
-```shell
-DO_NOT_OPEN=true npm start
-```
+2) Follow the instructions and be cautious about your cursor position, since **YAML** is  sensitive to indentation. 
 
-### Running in production mode
+ 2.1. insert 'info' block to add general information about your API. To do this either press Ctrl-Space to get a list of possible meta-data for that position or start typing "info". Select "info" from the list and you will see that a snippet is inserted to the editor. Add values for the snippet elements (e.g. Version, Title). 
 
-Pass `--production` flag to `npm start` to run in production mode
-```shell
-npm start --production
+[[wiki_images/figure1.jpg]]
 
-```
+[[wiki_images/f2.jpg]]
 
-### Building
-To build the project for production use, run:
+ 2.2. add "contact" under the info as instructed. Contact snippet is inserted. Add the values (e.g. responsibleOrganization, etc.)
 
-```shell
-npm run build
-```
-This will build a new version of the web app, ready for production
+[[wiki_images/f3.jpg]]
 
-###  Configuration
-Swagger Editor will make an XHR GET call to `/config/defaults.json` to get it's settings before launch. If you are using Swagger Editor as a dependency or serving it statically, you can provide your own `defaults.json` at this endpoint to override default settings.
+[[wiki_images/f4.jpg]]
 
-Swagger Editor is configured with a file, [`defaults.json`](../app/config/defaults.json).
-Read the [configuration guide](./config.md) and additional details
-in [`defaults.json.guide.js`](../app/config/defaults.json.guide.js)
-to learn how to configure Swagger Editor.
+3)  Add other meta-data (e.g. schemes, basePath, host) as instructed.
 
+[[wiki_images/f5.jpg]]
 
-### Running with Docker
-If you are familiar with [Docker](https://www.docker.com/), a `Dockerfile` is
-provided.
+4)  Add "paths" and add a name for your path, add the operation (e.g. Get, Post, etc.), then add the "parameter" snippet. Add values for the snippet elements. Again, the auto-suggestion functionality is available either by pressing Ctrl-Space (to get all the suggestions) or start typing (to get the matched suggestions).
+ 
+[[wiki_images/f6.jpg]]
 
-Build an image named `swagger-editor`
-```shell
-sudo docker build -t swagger-editor .
-```
+[[wiki_images/f7.jpg]]
 
-Run the container, using the local port 8080 (you may change this to any available
-port).
-```shell
-sudo docker run -ti -p 8080:8080 swagger-editor
-```
-And open [http://localhost:8080](http://localhost:8080) in your browser
+[[wiki_images/f8.jpg]]
 
-### Code Style
-Code style is enforced by ESLint. Build will fail if changes in code is not following code style guildlines.
+[[wiki_images/f9.jpg]]
 
-### Testing
-To run all tests run
+[[wiki_images/f10.jpg]]
 
-```shell
-npm test
-```
+ **Note:** If you want to add more paths, we recommend that you add it on top of your last path, closest to the "paths" element. This makes it much easier to follow the correct indentation. 
 
-This will build and run unit tests then if it was successful, it will run  end-to-end tests.
-
-#### Unit tests
-All unit tests are located in [`../test/unit`](../test/unit). Unit tests are written in Jasmine and run by Karma. To run unit tests, run
-
-```shell
-npm run unit-test
-```
-
-For developing unit tests, run
-```shell
-npm run unit-test-watch
-```
-This will keep test browser and test watcher open and watches for file changes to re-run tests.
-
-#### End-to-end tests
-All end-to-end tests are located in [`../test/e2e`](../test/e2e). To run end-to-end test, run
-
-```shell
-grunt protr
-npm run e2e-test
-This will run [Protractor](http://angular.github.io/protractor/#/) end-to-end test.
+Want to save your document to our registry? Please follow the instructions [here](https://github.com/WebsmartAPI/swagger-editor/wiki/Saving-and-Retrieving--API-documents)
