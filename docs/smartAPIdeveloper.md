@@ -4,15 +4,19 @@ smartAPI editor is an extentetion to Swagger editor. This guideline helps the de
 
 
 ### smartAPI specification
-The JSON schema which the editor validates the API document against:
+The JSON schema, the editor uses to validate the API document:
 ```shell
-swagger-editor/node_modules/swagger-schema-official/schema.json
+node_modules/swagger-schema-official/schema.json
 ```
-### Modifications to Auto-suggestion functionality for metadata elements and values involve several angular services:
-List of metadata elements, and enumerated values for auto-suggestion 
-  scripts/services/KeywordMap.js
-  
-  scripts/services/autocomplete.js
-
-
+### Auto-completion functionality for suggesting metadata elements and values
+```shell
+scripts/services/KeywordMap.js
+scripts/services/autocomplete.js
+node_modules/brace/ext/language_tools.js
+```
+### Right-hand preview panel
+HTML templates 
+```shell
+templates/
+```
 
