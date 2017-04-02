@@ -1,9 +1,10 @@
-# smartAPI editor Developer Guide
+# smartAPI Editor Developer Guide
 
 smartAPI editor is an extentetion to Swagger editor. This guideline helps the developers find the right place in the code to modify: 
 
 
-### smartAPI specification: The editor validates the API document against:
+### smartAPI specification
+The JSON schema which the editor validates the API document against:
 ```shell
 swagger-editor/node_modules/swagger-schema-official/schema.json
 ```
