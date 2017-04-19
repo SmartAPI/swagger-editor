@@ -1,98 +1,59 @@
-# Development Guide
+# smartAPI editor: Developer Guide
 
-### Installing dependencies
-This app have npm dependencies. To install all dependencies, run
+smartAPI editor is an extentetion to Swagger editor. This guideline helps the developers find the right place in the code to modify. 
+
+:exclamation: Make sure you are in swagger-editor directory; and have run *npm install*.
+
+### smartAPI specification
+  The JSON schema, the editor uses to validate the API document:
 ```shell
-npm install;
+node_modules/swagger-schema-official/schema.json
 ```
-
-### Specifying the port
-
-You can set the environment variable `PORT` to set the port
-
+### Auto-completion functionality for suggesting metadata elements and values
 ```shell
-PORT=81 npm start
+scripts/services/KeywordMap.js
+scripts/ace/swagger.snippet.js
+scripts/services/autocomplete.js
+node_modules/brace/ext/language_tools.js
 ```
-
-### Disallowing the browser to open
-
-Set `DO_NOT_OPEN` environment variable to start the server without
-opening the browser
-
+### Integration with Profiler and responseDataType automatic annotation
 ```shell
-DO_NOT_OPEN=true npm start
+scripts/services/autocomplete.js
+scripts/directives/compile-template.js
 ```
-
-### Running in production mode
-
-Pass `--production` flag to `npm start` to run in production mode
+### Right-hand preview panel
+  HTML templates for rendering
 ```shell
-npm start --production
-
+templates/
+scripts/controllers/
 ```
-
-### Building
-To build the project for production use, run:
-
+### smartAPI Recommendation
+  Collapsable div on top of preview panel
 ```shell
-npm run build
+templates/recom-presenter.html
+scripts/controllers/recompresenter.js
+styles/components/error-presenter.less
 ```
-This will build a new version of the web app, ready for production
-
-###  Configuration
-Swagger Editor will make an XHR GET call to `/config/defaults.json` to get it's settings before launch. If you are using Swagger Editor as a dependency or serving it statically, you can provide your own `defaults.json` at this endpoint to override default settings.
-
-Swagger Editor is configured with a file, [`defaults.json`](../app/config/defaults.json).
-Read the [configuration guide](./config.md) and additional details
-in [`defaults.json.guide.js`](../app/config/defaults.json.guide.js)
-to learn how to configure Swagger Editor.
-
-
-### Running with Docker
-If you are familiar with [Docker](https://www.docker.com/), a `Dockerfile` is
-provided.
-
-Build an image named `swagger-editor`
+### Auto-suggestion service URL and other Preferences tab settings
+  For Auto-suggestion service URL, look for *suggestionServiceBasePath*
 ```shell
-sudo docker build -t swagger-editor .
+templates/preferences.html
+scripts/controllers/preferences.js
+configs/defaults.js
 ```
-
-Run the container, using the local port 8080 (you may change this to any available
-port).
+### Save functionality
+  Look for *saveAPIdoc* function 
 ```shell
-sudo docker run -ti -p 8080:8080 swagger-editor
+views/header/header.html
+scripts/controllers/header.js
 ```
-And open [http://localhost:8080](http://localhost:8080) in your browser
-
-### Code Style
-Code style is enforced by ESLint. Build will fail if changes in code is not following code style guildlines.
-
-### Testing
-To run all tests run
-
+### New File, Default API document and other Example YAML documents
 ```shell
-npm test
+spec-files/guide.yaml
+spec-files/default.yaml
+spec-files/xxx.yaml
 ```
-
-This will build and run unit tests then if it was successful, it will run  end-to-end tests.
-
-#### Unit tests
-All unit tests are located in [`../test/unit`](../test/unit). Unit tests are written in Jasmine and run by Karma. To run unit tests, run
-
+### Dependencies
 ```shell
-npm run unit-test
+package.json
 ```
-
-For developing unit tests, run
-```shell
-npm run unit-test-watch
-```
-This will keep test browser and test watcher open and watches for file changes to re-run tests.
-
-#### End-to-end tests
-All end-to-end tests are located in [`../test/e2e`](../test/e2e). To run end-to-end test, run
-
-```shell
-grunt protr
-npm run e2e-test
-This will run [Protractor](http://angular.github.io/protractor/#/) end-to-end test.
