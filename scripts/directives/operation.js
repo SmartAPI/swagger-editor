@@ -115,6 +115,19 @@ SwaggerEditor.directive('swaggerOperation', function(defaults) {
         });
       };
 
+      /**
+       * Returns true if the operation responses has at least one response with
+       * "responseDataType" field
+       *
+       * @param {object} responses - a hash of responses
+       * @return {boolean} - true/false
+      */
+      $scope.hasAResponseWithDataType = function(responses) {
+        return _.keys(responses).some(function(responseCode) {
+          return responses[responseCode] && responses[responseCode].responseDataType;
+        });
+      };
+
       $scope.hasAParameterWithDescription = function(parameters) {
         if (!Array.isArray(parameters)) {
           return false;

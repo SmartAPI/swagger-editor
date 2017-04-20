@@ -101,6 +101,7 @@
               <th ng-if="hasAResponseWithHeaders(operation.responses)">Headers</th>
               <th ng-if="hasAResponseWithSchema(operation.responses)">Schema</th>
               <th ng-if="hasAResponseWithExamples(operation.responses)">Examples</th>
+              <th ng-if="hasAResponseWithDataType(operation.responses)">Response DataType</th>
             </tr>
           </thead>
 
@@ -163,6 +164,9 @@
                   </tbody>
                 </table>
               </td>
+              <td ng-if="hasAResponseWithDataType(operation.responses)"> <ul ng-repeat="n in response.responseDataType | unique: 'datatype'">
+                   <li><a target="_id.org" href="{{n.datatype}}{{$last ? '':''}}">{{n.datatype | limitTo : 25 : 23}}</a></li>
+                   </ul> </td>
             </tr>
           </tbody>
         </table>
