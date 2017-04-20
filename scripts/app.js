@@ -11,6 +11,7 @@ require('json-editor');
 require('ngstorage');
 require('ng-resource');
 require('angular-ui-ace');
+require('change-case');
 
 window.SwaggerEditor = angular.module('SwaggerEditor', [
   require('angular-sanitize'),

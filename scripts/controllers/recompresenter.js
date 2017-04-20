@@ -3,6 +3,7 @@
 var yaml = require('yaml-js');
 // var _ = require('lodash');
 var angular = require('angular');
+var changeCase = require('change-case');
 
 SwaggerEditor.controller('RecomPresenterCtrl', function RecomPresenterCtrl($scope, $uibModal,
   $stateParams, $state, $rootScope, Storage, Builder, FileLoader, Editor,
@@ -57,7 +58,8 @@ SwaggerEditor.controller('RecomPresenterCtrl', function RecomPresenterCtrl($scop
         } else {
           $scope.recoms.push(value);
         }
-        // alert(value);
+        value = changeCase.headerCase(value);
+        value = changeCase.lowerCase(value);
         $scope.recomLinks.push("https://websmartapi.github.io/smartapi_specification/#" + value);
       }
     });
