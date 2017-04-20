@@ -308,7 +308,6 @@ SwaggerEditor.service('Autocomplete', function($rootScope, snippets,
       //	this is one of our keys
       // 	do a search
       //	if empty then
-
       if (pathLocalName === "parameterValueType") {
         var queryString = getQueryString();
         while (queryString.length < 0) {
@@ -333,8 +332,8 @@ SwaggerEditor.service('Autocomplete', function($rootScope, snippets,
         if (field.indexOf('.0') !== -1) {
           field = pathLocalName;
         }
-        // var url = Preferences.get('suggestionServiceBasePath') + field;
-        // suggestions = getSuggestedValues(url);
+        var url = Preferences.get('suggestionServiceBasePath') + field;
+        suggestions = getSuggestedValues(url);
         keywordsMap = suggestions;
         keywordsMap.map(constructAceCompletion);
 
