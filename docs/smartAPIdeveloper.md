@@ -34,6 +34,13 @@ templates/recom-presenter.html
 scripts/controllers/recompresenter.js
 styles/components/error-presenter.less
 ```
+### Validation Errors
+  Collapsable red div on top of preview panel that shows up if error occurs
+```shell
+templates/error-presenter.html
+scripts/controllers/errorpresenter.js
+styles/components/error-presenter.less
+```
 ### Auto-suggestion service URL and other Preferences tab settings
   For Auto-suggestion service URL, look for *suggestionServiceBasePath*
 ```shell
