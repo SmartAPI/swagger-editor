@@ -133,18 +133,6 @@
 
       <ul class="dropdown-menu" uib-dropdown-menu>
         <li>
-          <a tabindex="-1" href="https://github.com/WebsmartAPI/swagger-editor/wiki" target="_blank">
-            <i class="fa fa-align-justify"></i>&nbsp;
-            <span>SmartAPI Wiki</span>
-          </a>
-        </li>
-        <li>
-          <a tabindex="-1" href="https://websmartapi.github.io/smartapi_specification/" target="_blank">
-            <i class="fa fa-align-justify"></i>&nbsp;
-            <span>SmartAPI Specification</span>
-          </a>
-        </li>
-        <li>
           <a tabindex="-1" href="https://github.com/swagger-api/swagger-spec/blob/master/versions/2.0.md" target="_blank">
             <i class="fa fa-align-justify"></i>&nbsp;
             <span>Swagger 2.0 Specs</span>
@@ -178,7 +166,48 @@
         </li>
       </ul>
     </div>
-  <button ng-click="saveAPIdoc()"> Save</button></form>
+  <div class="help dropdown" uib-dropdown>
+      <button class="dropdown-icon btn btn-default" id="helpMenu" uib-dropdown-toggle>
+        <span>smartAPI</span>
+        <span class="caret"></span>
+      </button>
+
+      <ul class="dropdown-menu" uib-dropdown-menu>
+        <li>
+          <a tabindex="-1" href="https://github.com/WebsmartAPI/swagger-editor/wiki" target="_blank">
+            <i class="fa fa-align-justify"></i>&nbsp;
+            <span>smartAPI Documentation</span>
+          </a>
+        </li>
+        <li>
+          <a tabindex="-1" href="https://websmartapi.github.io/smartapi_specification/" target="_blank">
+            <i class="fa fa-align-justify"></i>&nbsp;
+            <span>smartAPI Specification</span>
+          </a>
+        </li>
+        <li>
+          <a tabindex="-1" href="http://smart-api.info" target="_blank">
+            <i class="fa fa-share-square-o"></i>&nbsp;
+            <span>smartAPI Website</span>
+          </a>
+        </li>
+        <li class="divider"></li>
+        <li>
+          <a href="https://github.com/WebsmartAPI/swagger-editor/issues" target="_blank">
+            <i class="fa fa-bug highlighted"></i>&nbsp;
+            <span>Report Issues</span>
+          </a>
+        </li>
+        <li class="divider"></li>
+        <li>
+          <a href="https://github.com/WebsmartAPI/swagger-editor/issues" target="_blank">
+            <i class="fa fa-youtube"></i>&nbsp;
+            <span>Live Demo</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  <button ng-click="saveAPIdoc()"> Publish</button></form>
   </section>
 
   <section class="status-bar">

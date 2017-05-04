@@ -20,10 +20,10 @@
     <p ng-if="specs.info.APIlocation"><b>API location:</b> {{specs.info.APIlocation}}</p>
     <p ng-if="specs.info.APIimplementationLanguage"><b>API implementation language:</b> {{specs.info.APIimplementationLanguage}}</p>
     <p ng-if="specs.info.APImaturity"><b>API maturity:</b> {{specs.info.APImaturity}}</p>
-    
-    <div class="contact info-box" ng-if="specs.info.contact">      
+
+    <div class="contact info-box" ng-if="specs.info.contact">
       <p ng-if="specs.info.contact.responsibleOrganization"><b>Responsible Organization:</b> {{specs.info.contact.responsibleOrganization}}</p>
-      <p ng-if="specs.info.contact.responsibleDeveloper"><b>Responsible Developer:</b> {{specs.info.contact.responsibleOrganization}}</p>
+      <p ng-if="specs.info.contact.responsibleDeveloper"><b>Responsible Developer:</b> {{specs.info.contact.responsibleDeveloper}}</p>
       <p ng-if="specs.info.contact.email" ng-bind-html="specs.info.contact.email | linky:'_blank'"></p>
       <p ng-if="specs.info.contact.url" ng-bind-html="specs.info.contact.url | linky:'_blank'"></p>
       <p ng-if="specs.info.contact.funding"><b>Funding information:</b> {{specs.info.contact.funding}}</p>

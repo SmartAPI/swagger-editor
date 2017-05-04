@@ -12,6 +12,7 @@ require('ngstorage');
 require('ng-resource');
 require('angular-ui-ace');
 require('change-case');
+require('angular-filter');
 
 window.SwaggerEditor = angular.module('SwaggerEditor', [
   require('angular-sanitize'),
@@ -23,7 +24,8 @@ window.SwaggerEditor = angular.module('SwaggerEditor', [
   require('jsonformatter'),
   'ui.ace',
   'mohsen1.schema-form',
-  'ngStorage'
+  'ngStorage',
+  'angular.filter'
 ]);
 
 require('scripts/config.js');
